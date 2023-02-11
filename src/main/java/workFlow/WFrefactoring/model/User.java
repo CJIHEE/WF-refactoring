@@ -1,6 +1,7 @@
 package workFlow.WFrefactoring.model;
 
         import java.sql.Timestamp;
+        import java.time.LocalDateTime;
         import javax.persistence.Entity;
         import javax.persistence.Id;
 
@@ -11,11 +12,22 @@ package workFlow.WFrefactoring.model;
 public class User {
 
     @Id
-    private String userId;
-    private String password;
-    private String userName;
-    private String userRole;
-    private String star;
+    private int emp_no;
+    private int dept_no;
+    private String position;
+    private String name;
+    private String mail;
+    private int pw;
+    private String hitrdate_at;
+    private String gender;
+    private LocalDateTime retirement_at;
+    private int phone;
+    private String addr;
+    private String emp_status;
+
+    private String test;
+
+
     @CreationTimestamp
     private Timestamp regDt;
 }
