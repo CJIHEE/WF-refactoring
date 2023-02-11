@@ -25,7 +25,7 @@ public class User {
     private String addr;
     private String emp_status;
 
-    private String test;
+    private String test2;
 
 
     @CreationTimestamp
