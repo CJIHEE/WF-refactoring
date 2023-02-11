@@ -25,6 +25,8 @@ public class User {
     private String addr;
     private String emp_status;
 
+    private String test;
+
 
     @CreationTimestamp
     private Timestamp regDt;
