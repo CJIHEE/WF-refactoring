@@ -2,10 +2,11 @@ package workFlow.WFrefactoring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="dept")
+@Table(name="Dept")
 public class Dept {
     @Id
     private int dept_no;
