@@ -11,20 +11,21 @@ import java.time.LocalDateTime;
 public class Approval {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int app_no;
+    @Column(name="app_no")
+    private Long appNo;
     @ManyToOne
     @JoinColumn(name = "emp_no")
-    private Employee approval_emp_no;
+    private Employee employee;
     @ManyToOne
     @JoinColumn(name = "doc_no")
     private Document document;
 
-    private int levelno;
+    private int levelNo;
     private int approval;
     @CreatedDate
-    private LocalDateTime creat_at;
+    private LocalDateTime creatAt;
     @LastModifiedDate
-    private LocalDateTime modified_at;
+    private LocalDateTime modifiedAt;
 
 
 

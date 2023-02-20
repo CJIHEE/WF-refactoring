@@ -12,19 +12,21 @@ import java.util.List;
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int doc_no;
+    @Column(name="doc_no")
+    private Long docNo;
     @ManyToOne
     @JoinColumn(name="emp_no")
-    private Employee emp_no;
+    private Employee employee; //writeEmpNo 인지 employee인지 네이밍 헷갈림
     private String subject;
     private String contents;
-    private String expired_at;
+    private String expiredAt;
     private int complete;
     @CreatedDate
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
     @LastModifiedDate
-    private LocalDateTime modified_at;
-    @OneToMany(mappedBy="doc_no")
+    private LocalDateTime modifiedAt;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="doc_no")
     private List<Attachment> attachmentList;
 
 

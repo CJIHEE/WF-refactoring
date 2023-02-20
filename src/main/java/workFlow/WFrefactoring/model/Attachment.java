@@ -7,9 +7,8 @@ import java.io.Serializable;
 @Table(name="Attachment")
 public class Attachment implements Serializable {
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="doc_no")
-    private Document doc_no;
+    @Column(name="doc_no")
+    private Long docNo; //documnet에서 단방향
     private String fileName;
     private String orgFileName;
     private int fileSize;
