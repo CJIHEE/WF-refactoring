@@ -3,7 +3,7 @@ package workFlow.WFrefactoring.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Dept")
+@Table(name="dept")
 public class Dept {
     @Id
     @Column(name="dept_no")

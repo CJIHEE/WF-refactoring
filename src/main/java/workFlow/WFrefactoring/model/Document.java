@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="Document")
+@Table(name="document")
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

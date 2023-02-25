@@ -7,15 +7,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="Approval")
+@Table(name="approval")
 public class Approval {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="app_no")
     private Long appNo;
     @ManyToOne
-    @JoinColumn(name = "emp_no")
-    private Employee employee;
+    @JoinColumn(name = "write_emp_no")
+    private Employee requester;
     @ManyToOne
     @JoinColumn(name = "doc_no")
     private Document document;
@@ -23,7 +23,7 @@ public class Approval {
     private int levelNo;
     private int approval;
     @CreatedDate
-    private LocalDateTime creatAt;
+    private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 

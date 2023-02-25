@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="Attachment")
+@Table(name="attachment")
 public class Attachment implements Serializable {
     @Id
     @Column(name="doc_no")
