@@ -2,6 +2,7 @@ package workFlow.WFrefactoring.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import workFlow.WFrefactoring.enums.Complete;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class Document {
     private String subject;
     private String contents;
     private String expiredAt;
-    private int complete;
+    private Complete complete;
     @CreatedDate
     private LocalDateTime createAt;
     @LastModifiedDate

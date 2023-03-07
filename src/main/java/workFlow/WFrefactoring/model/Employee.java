@@ -1,6 +1,9 @@
 package workFlow.WFrefactoring.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import workFlow.WFrefactoring.enums.EmpStatus;
+import workFlow.WFrefactoring.enums.Gender;
+import workFlow.WFrefactoring.enums.Position;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,16 +20,16 @@ public class Employee {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dept_no")
     private Dept dept;
-    private String position;
+    private Position position;
     private String name;
     private String mail;
     private String pw;
-    private String hitrdateAt;
-    private String gender;
-    private String retirementAt;
+    private String hireDate;
+    private Gender gender;
+    private String retirementDate;
     private String  phone;
     private String addr;
-    private String empStatus;
+    private EmpStatus empStatus;
 
 
 }
