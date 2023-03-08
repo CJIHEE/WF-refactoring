@@ -2,7 +2,7 @@ package workFlow.WFrefactoring.enums;
 
 public enum EmpStatus {
 
-    EMPLOYMENT,
+    INCUMBENT,
     LEAVE,
     RETIREMENT
 }

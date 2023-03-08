@@ -2,7 +2,6 @@ package workFlow.WFrefactoring.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import workFlow.WFrefactoring.enums.Complete;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,12 +15,12 @@ public class Document {
     @Column(name="doc_no")
     private Long docNo;
     @ManyToOne
-    @JoinColumn(name="emp_no")
-    private Employee employee; //writeEmpNo 인지 employee인지 네이밍 헷갈림
+    @JoinColumn(name="write_emp_no")
+    private Employee requester;
     private String subject;
     private String contents;
     private String expiredAt;
-    private Complete complete;
+    private boolean complete;
     @CreatedDate
     private LocalDateTime createAt;
     @LastModifiedDate

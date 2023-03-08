@@ -1,6 +1,6 @@
 package workFlow.WFrefactoring.enums;
 
-public enum Progress {
+public enum ApprovalProgress {
     APPROVAL,
     RETURNED,
     WAITING

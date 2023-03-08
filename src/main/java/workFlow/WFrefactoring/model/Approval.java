@@ -2,7 +2,7 @@ package workFlow.WFrefactoring.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import workFlow.WFrefactoring.enums.Progress;
+import workFlow.WFrefactoring.enums.ApprovalProgress;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,13 +15,13 @@ public class Approval {
     @Column(name="app_no")
     private Long appNo;
     @ManyToOne
-    @JoinColumn(name = "write_emp_no")
-    private Employee requester;
+    @JoinColumn(name = "approval_emp_no")
+    private Employee approver;
     @ManyToOne
     @JoinColumn(name = "doc_no")
     private Document document;
     private int levelNo;
-    private Progress approval;
+    private ApprovalProgress approval;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
