@@ -3,25 +3,31 @@ package workFlow.WFrefactoring.model;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="document")
 public class Document {
     @Id
-    private int doc_no;
-    private int write_emp_no;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="doc_no")
+    private Long docNo;
+    @ManyToOne
+    @JoinColumn(name="write_emp_no")
+    private Employee requester;
     private String subject;
     private String contents;
-    private String expired_at;
-    private int complete;
+    private String expiredAt;
+    private boolean complete;
     @CreatedDate
-    private LocalDateTime create_at;
+    private LocalDateTime createAt;
     @LastModifiedDate
-    private LocalDateTime modified_at;
+    private LocalDateTime modifiedAt;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="doc_no")
+    private List<Attachment> attachmentList;
 
 
 }
