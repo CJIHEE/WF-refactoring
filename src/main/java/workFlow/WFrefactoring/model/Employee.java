@@ -1,17 +1,15 @@
 package workFlow.WFrefactoring.model;
 
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Data;
 import workFlow.WFrefactoring.enums.EmpStatus;
 import workFlow.WFrefactoring.enums.Gender;
 import workFlow.WFrefactoring.enums.Position;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name="employee")
+@Data
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +28,7 @@ public class Employee {
     private String  phone;
     private String addr;
     private EmpStatus empStatus;
+
 
 
 }
