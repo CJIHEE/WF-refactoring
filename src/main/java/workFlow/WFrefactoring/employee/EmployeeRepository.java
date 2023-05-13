@@ -7,4 +7,7 @@ import workFlow.WFrefactoring.model.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      boolean existsBymail(String mail);
+
+     //아이디 찾기
+     Employee findBymail(String mail);
 }

@@ -1,5 +1,6 @@
 package workFlow.WFrefactoring.employee;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import workFlow.WFrefactoring.enums.EmpStatus;
@@ -12,9 +13,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 //입력 받은 데이터
-@Getter
 public class EmployeeRequset {
-    @Data
+    @Getter
+    @Builder
     public static class CreateEmployee {
         @NotNull
         private int deptNo;

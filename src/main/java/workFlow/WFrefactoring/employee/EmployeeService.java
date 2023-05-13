@@ -8,8 +8,10 @@ import workFlow.WFrefactoring.exception.DeptNotFoundException;
 import workFlow.WFrefactoring.model.Dept;
 import workFlow.WFrefactoring.model.Employee;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {

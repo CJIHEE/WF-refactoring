@@ -1,12 +1,12 @@
 package workFlow.WFrefactoring.employee;
 
-import lombok.Data;
+import lombok.Getter;
 import workFlow.WFrefactoring.enums.EmpStatus;
 import workFlow.WFrefactoring.enums.Gender;
 import workFlow.WFrefactoring.enums.Position;
 import workFlow.WFrefactoring.model.Employee;
 
-@Data
+@Getter
 public class EmployeeResponse {
     private int deptNo;
     private Long empNo;
