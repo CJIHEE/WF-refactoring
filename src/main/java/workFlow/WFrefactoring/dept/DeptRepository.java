@@ -5,7 +5,7 @@ import workFlow.WFrefactoring.model.Dept;
 
 import java.util.Optional;
 
-public interface DeptRepository extends JpaRepository<Dept, Long> {
+public interface DeptRepository extends JpaRepository<Dept, Integer> {
 
     Optional<Dept> findBydeptNo(int deptNo);
 }

@@ -13,8 +13,8 @@ public class EmployeeController {
 
     @PostMapping
     //command 입력받은 데이터
-    public EmployeeVO createEmployee(@RequestBody @Valid EmployeeCommand.CreateEmployee command){
-        return employeeService.createEmployee(command);
+    public EmployeeResponse createEmployee(@RequestBody @Valid EmployeeRequset.CreateEmployee request){
+        return employeeService.createEmployee(request);
     }
 
 }

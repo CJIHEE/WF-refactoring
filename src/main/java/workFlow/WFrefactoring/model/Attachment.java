@@ -11,7 +11,7 @@ public class Attachment implements Serializable {
     private Long docNo; //documnet에서 단방향
     private String fileName;
     private String orgFileName;
-    private int fileSize;
+    private Integer fileSize;
 
 
 }

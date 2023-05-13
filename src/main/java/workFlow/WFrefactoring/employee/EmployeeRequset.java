@@ -1,6 +1,7 @@
 package workFlow.WFrefactoring.employee;
 
 import lombok.Data;
+import lombok.Getter;
 import workFlow.WFrefactoring.enums.EmpStatus;
 import workFlow.WFrefactoring.enums.Gender;
 import workFlow.WFrefactoring.enums.Position;
@@ -11,8 +12,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 //입력 받은 데이터
-@Data
-public class EmployeeCommand {
+@Getter
+public class EmployeeRequset {
     @Data
     public static class CreateEmployee {
         @NotNull
@@ -38,18 +39,18 @@ public class EmployeeCommand {
 
         //입력받은 내부 클래스의 필드 값을 entity에 주입
         public Employee toEmployee(Dept dept){
-            Employee employee = new Employee();
-            employee.setDept(dept);
-            employee.setPosition(position);
-            employee.setName(name);
-            employee.setMail(mail);
-            employee.setPw(pw);
-            employee.setHireDate(hireDate);
-            employee.setGender(gender);
-            employee.setPhone(phone);
-            employee.setAddr(addr);
-            employee.setEmpStatus(empStatus);
-            return employee;
+            return Employee.builder()
+                    .dept(dept)
+                    .position(position)
+                    .name(name)
+                    .mail(mail)
+                    .pw(pw)
+                    .hireDate(hireDate)
+                    .gender(gender)
+                    .phone(phone)
+                    .addr(addr)
+                    .empStatus(empStatus)
+                    .build();
         }
     }
 }

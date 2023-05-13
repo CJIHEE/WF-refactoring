@@ -18,16 +18,19 @@ public class EmployeeService {
    private  final DeptRepository deptRepository;
 
     //회원가입
-    public EmployeeVO createEmployee(EmployeeCommand.@Valid CreateEmployee command) {
+    public EmployeeResponse createEmployee(EmployeeRequset.@Valid CreateEmployee request) {
+        //성공 여부
+        String successOrFailure = "failure";
         //dept 여부
-        Dept dept = deptRepository.findBydeptNo(command.getDeptNo()).orElseThrow(()-> new DeptNotFoundException("dept not found"));
+        Dept dept = deptRepository.findBydeptNo(request.getDeptNo()).orElseThrow(()-> new DeptNotFoundException("dept not found"));
         //존재 유무라서 exists 사용(boolean 타입)
-        if(employeeRepository.existsBymail(command.getMail())){
+        if(employeeRepository.existsBymail(request.getMail())){
             throw new CheckEmailException("ID duplication");
         }
         //DB에 저장(save),command로받은 데이터 entity에 데이터 주입
-        Employee employee = employeeRepository.save(command.toEmployee(dept));
+        Employee employee = employeeRepository.save(request.toEmployee(dept));
+        successOrFailure = "ok";
         //entity 값 VO에 주입
-        return EmployeeVO.toVO(employee);
+        return EmployeeResponse.toVO(employee, successOrFailure);
     }
 }

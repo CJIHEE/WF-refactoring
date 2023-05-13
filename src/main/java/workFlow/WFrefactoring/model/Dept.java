@@ -10,9 +10,9 @@ import javax.persistence.*;
 public class Dept {
     @Id
     @Column(name="dept_no")
-    private int deptNo;
+    private Integer deptNo;
     private String deptName;
-    private int leadEmpNo;
-    private int upperDeptNo;
-    
+    private Long leadEmpNo;
+    private Integer upperDeptNo;
+
 }
