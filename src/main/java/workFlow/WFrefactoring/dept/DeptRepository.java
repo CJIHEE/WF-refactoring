@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface DeptRepository extends JpaRepository<Dept, Integer> {
 
-    Optional<Dept> findBydeptNo(int deptNo);
+    Optional<Dept> findBydeptNo(Integer deptNo);
 }

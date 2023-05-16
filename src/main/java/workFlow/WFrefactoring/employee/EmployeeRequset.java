@@ -18,7 +18,7 @@ public class EmployeeRequset {
     @Builder
     public static class CreateEmployee {
         @NotNull
-        private int deptNo;
+        private Integer deptNo;
         @NotNull
         private Position position;
         @NotBlank
@@ -39,9 +39,9 @@ public class EmployeeRequset {
         private EmpStatus empStatus;
 
         //입력받은 내부 클래스의 필드 값을 entity에 주입
-        public Employee toEmployee(Dept dept){
+        public Employee toEmployee(Integer dept){
             return Employee.builder()
-                    .dept(dept)
+                    .deptNo(dept)
                     .position(position)
                     .name(name)
                     .mail(mail)

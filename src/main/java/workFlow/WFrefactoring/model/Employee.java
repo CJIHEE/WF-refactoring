@@ -19,9 +19,11 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="emp_no")
     private Long empNo;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "dept_no")
-    private Dept dept;
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "dept_no")
+//    private Dept dept;
+    @Column(name = "dept_no")
+    private Integer deptNo;
     private Position position;
     private String name;
     private String mail;
