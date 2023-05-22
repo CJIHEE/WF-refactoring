@@ -26,7 +26,7 @@ hotfix : master 브랜치로 배포 후 수정 브랜치
 ![multi-module](https://github.com/CJIHEE/WF-refactoring/assets/110098108/a2968ebd-adaa-4d8b-b0e7-29419f7ff461)
 ```sh
 api-module : Controller, Exception
-domain-module : Request, Response, Service, Exception
+domain-module :Service, DTO(Request, Response) Exception
 data- module : Entity, Repository, Enum
 ```
 설계이야기 https://gogowlgml.tistory.com/88
