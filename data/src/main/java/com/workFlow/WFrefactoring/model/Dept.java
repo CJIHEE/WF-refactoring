@@ -18,4 +18,6 @@ public class Dept {
     private Long leadEmpNo;
     private Integer upperDeptNo;
 
+
+
 }

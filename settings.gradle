@@ -2,4 +2,4 @@ rootProject.name = 'WF-refactoring'
 include 'employee-api'
 include 'domain'
 include 'data'
-
+include 'common'

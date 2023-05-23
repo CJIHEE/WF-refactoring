@@ -3,16 +3,21 @@ package com.workFlow.WFrefactoring.model;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+
 
 @Builder
 @Entity
 @Table(name="employee", indexes = @Index(name="idx_mail", columnList = "mail"))
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -46,24 +46,5 @@ subprojects {
 	}
 }
 
-project(':employee-api') {
-	dependencies {
-		implementation project(':data')
-		implementation project(':domain')
-
-	}
-}
-
-project(':domain') {
-	dependencies {
-		implementation project(':data')
-	}
-}
-
-project(':data') {
-	dependencies {
-		implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
-	}
-}
 
 

@@ -1,5 +1,6 @@
 package com.workFlow.WFrefactoring;
 
+import com.workFlow.WFrefactoring.employee.EmployeeServiceTest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.EmployeeService;
@@ -8,24 +9,30 @@ import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
-import com.workFlow.WFrefactoring.model.Employee;
-import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-
-import javax.transaction.Transactional;
-
+@TestExecutionListeners({
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class
+})
 @SpringBootTest
-public class EmployeeServiceTest {
+public class TestEmployeeService {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
-    private EmployeeRepository employeeRepository;
-    @Transactional
+    private EmployeeServiceTest employeeServiceTest;
+    @AfterEach
+    public void tearDown(){
+        employeeServiceTest.clear();
+    }
+
     @Test
     public void createEmployee() {
         //given
@@ -48,12 +55,11 @@ public class EmployeeServiceTest {
         EmployeeResponse newEmployee = employeeService.createEmployee(request);
 
         //then
-        Employee findEmployee = employeeRepository.findBymail(newEmployee.getMail());
-        Assertions.assertEquals(newEmployee.getMail(), findEmployee.getMail());
+        String findEmployee = employeeServiceTest.findBymail(newEmployee.getMail());
+        Assertions.assertEquals(newEmployee.getMail(), findEmployee);
 
     }
 
-    @Transactional
     @Test
     public void 부서존재유무(){
         //given
@@ -78,7 +84,6 @@ public class EmployeeServiceTest {
 
     }
 
-    @Transactional
     @Test
     public void 중복회원예외(){
         //given

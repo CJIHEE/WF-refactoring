@@ -4,6 +4,7 @@ import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.model.Employee;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
