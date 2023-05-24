@@ -23,7 +23,7 @@ hotfix : master 브랜치로 배포 후 수정 브랜치
 
 
 # 멀티 모듈 설계
-<img width="404" alt="multi-module 수정" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/c7b9260d-0d1f-41ef-bd61-ac70237f8df6">
+<img width="398" alt="multi-module 수정" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/84b70ce1-f87c-4d01-9b5e-12d4ca8d2a39">
 
 ```sh
 api-module : Controller, Exception
