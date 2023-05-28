@@ -1,5 +1,6 @@
-package com.workFlow.WFrefactoring.dept;
+package com.workFlow.WFrefactoring.dept.service;
 
+import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
 import com.workFlow.WFrefactoring.model.Dept;
 import com.workFlow.WFrefactoring.repository.DeptRepository;
@@ -16,9 +17,9 @@ public class DeptService {
 
     //부서 찾기
     @Transactional(readOnly = true)
-    public Integer findBydeptNo(Integer deptNo) {
+    public DeptDto findBydeptNo(Integer deptNo) {
         //dept 여부
         Dept dept = deptRepository.findAllBydeptNo(deptNo).orElseThrow(()-> new DeptNotFoundException("dept not found"));
-        return dept.getDeptNo();
+        return DeptDto.deptEntityToDeptDto(dept);
     }
 }

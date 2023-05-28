@@ -1,5 +1,7 @@
 package com.workFlow.WFrefactoring.model;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,6 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="attachment")
+@Getter
 public class Attachment implements Serializable {
     @Id
     @Column(name="doc_no")

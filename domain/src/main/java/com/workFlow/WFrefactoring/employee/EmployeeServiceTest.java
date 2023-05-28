@@ -1,16 +1,9 @@
 package com.workFlow.WFrefactoring.employee;
 
-import com.workFlow.WFrefactoring.dept.DeptService;
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
-import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
-import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 @Service
 @RequiredArgsConstructor

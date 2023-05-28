@@ -29,6 +29,7 @@ public class Employee {
     private String mail;
     private String pw;
     private String hireDate;
+
     private Gender gender;
     private String retirementDate;
     private String  phone;

@@ -1,6 +1,7 @@
-package com.workFlow.WFrefactoring.employee;
+package com.workFlow.WFrefactoring.employee.service;
 
-import com.workFlow.WFrefactoring.dept.DeptService;
+import com.workFlow.WFrefactoring.dept.dto.DeptDto;
+import com.workFlow.WFrefactoring.dept.service.DeptService;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
@@ -24,13 +25,13 @@ public class EmployeeService {
     @Transactional
     public EmployeeResponse createEmployee(EmployeeRequset.@Valid CreateEmployee request) {
         //dept 여부
-        Integer dept = deptService.findBydeptNo(request.getDeptNo());
+        DeptDto deptDto = deptService.findBydeptNo(request.getDeptNo());
         //존재 유무라서 exists 사용(boolean 타입)
         if(employeeRepository.existsBymail(request.getMail())){
             throw new CheckEmailException("ID duplication");
         }
         //DB에 저장(save),command로받은 데이터 entity에 데이터 주입(DTO->entity)
-        Employee employee = employeeRepository.save(request.toEmployee(dept));
+        Employee employee = employeeRepository.save(request.toEmployee(deptDto.getDeptNo()));
         //entity 값 VO에 주입
         return EmployeeResponse.toVO(employee);
     }
