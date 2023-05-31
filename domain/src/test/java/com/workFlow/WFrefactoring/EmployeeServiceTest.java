@@ -1,6 +1,5 @@
 package com.workFlow.WFrefactoring;
 
-import com.workFlow.WFrefactoring.employee.EmployeeServiceTest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
@@ -9,6 +8,8 @@ import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
+import com.workFlow.WFrefactoring.model.Employee;
+import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,14 +26,14 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 })
 @SpringBootTest
 @ActiveProfiles("test")
-public class TestEmployeeService {
+public class EmployeeServiceTest {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
-    private EmployeeServiceTest employeeServiceTest;
+    private EmployeeRepository employeeRepository;
     @AfterEach
     public void tearDown(){
-        employeeServiceTest.clear();
+        employeeRepository.deleteAllInBatch();
     }
 
     @Test
@@ -57,8 +58,8 @@ public class TestEmployeeService {
         EmployeeResponse newEmployee = employeeService.createEmployee(request);
 
         //then
-        String findEmployee = employeeServiceTest.findBymail(newEmployee.getMail());
-        Assertions.assertEquals(newEmployee.getMail(), findEmployee);
+        Employee findEmployee = employeeRepository.findBymail(newEmployee.getMail());
+        Assertions.assertEquals(newEmployee.getMail(), findEmployee.getMail());
 
     }
 
