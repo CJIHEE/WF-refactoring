@@ -12,14 +12,5 @@ public class DeptDto {
     private Long leadEmpNo;
     private Integer upperDeptNo;
 
-    public static DeptDto deptEntityToDeptDto(Dept dept){
-        return DeptDto.builder()
-                .deptNo(dept.getDeptNo())
-                .deptName(dept.getDeptName())
-                .leadEmpNo(dept.getLeadEmpNo())
-                .upperDeptNo(dept.getUpperDeptNo())
-                .build();
-    }
-
 
 }

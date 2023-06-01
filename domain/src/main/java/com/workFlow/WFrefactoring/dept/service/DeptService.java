@@ -20,6 +20,11 @@ public class DeptService {
     public DeptDto findBydeptNo(Integer deptNo) {
         //dept 여부
         Dept dept = deptRepository.findAllBydeptNo(deptNo).orElseThrow(()-> new DeptNotFoundException("dept not found"));
-        return DeptDto.deptEntityToDeptDto(dept);
+        return DeptDto.builder()
+                .deptNo(dept.getDeptNo())
+                .deptName(dept.getDeptName())
+                .leadEmpNo(dept.getLeadEmpNo())
+                .upperDeptNo(dept.getUpperDeptNo())
+                .build();
     }
 }
