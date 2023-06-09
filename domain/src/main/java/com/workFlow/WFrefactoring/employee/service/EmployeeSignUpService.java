@@ -9,6 +9,7 @@ import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 
@@ -18,6 +19,7 @@ public class EmployeeSignUpService {
     private final DeptService deptService;
     private final EmployeeService employeeService;
 
+    @Transactional
     //회원가입
     public EmployeeResponse SignUpEmployee(EmployeeRequset.@Valid CreateEmployee request) {
         //dept 여부
