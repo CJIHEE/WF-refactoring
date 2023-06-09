@@ -4,9 +4,7 @@ import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.model.Employee;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 
 import javax.validation.constraints.Email;
@@ -17,6 +15,9 @@ import javax.validation.constraints.NotNull;
 public class EmployeeRequset {
     @Getter
     @Builder
+    @ToString
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateEmployee {
         @NotNull
         private Integer deptNo;
@@ -33,7 +34,7 @@ public class EmployeeRequset {
         @NotNull
         private Gender gender;
         @NotBlank
-        private String  phone;
+        private String phone;
         @NotBlank
         private String addr;
         @NotNull

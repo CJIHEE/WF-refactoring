@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeptService {
 
-   private  final DeptRepository deptRepository;
+   private final DeptRepository deptRepository;
 
     //부서 찾기
     @Transactional(readOnly = true)
     public DeptDto findBydeptNo(Integer deptNo) {
         //dept 여부
-        Dept dept = deptRepository.findAllBydeptNo(deptNo).orElseThrow(()-> new DeptNotFoundException("dept not found"));
+        Dept dept = deptRepository.findById(deptNo).orElseThrow(()-> new DeptNotFoundException("dept not found"));
         return DeptDto.builder()
                 .deptNo(dept.getDeptNo())
                 .deptName(dept.getDeptName())

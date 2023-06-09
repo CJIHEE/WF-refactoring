@@ -11,6 +11,4 @@ public class DeptDto {
     private String deptName;
     private Long leadEmpNo;
     private Integer upperDeptNo;
-
-
 }

@@ -3,6 +3,7 @@ package com.workFlow.WFrefactoring;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
+import com.workFlow.WFrefactoring.employee.service.EmployeeSignUpService;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
@@ -31,6 +32,8 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeSignUpService employeeSignUpService;
     @AfterEach
     public void tearDown(){
         employeeRepository.deleteAllInBatch();
@@ -55,7 +58,7 @@ public class EmployeeServiceTest {
                 .empStatus(empStatus).build();
 
         //when
-        EmployeeResponse newEmployee = employeeService.createEmployee(request);
+        EmployeeResponse newEmployee = employeeSignUpService.SignUpEmployee(request);
 
         //then
         Employee findEmployee = employeeRepository.findBymail(newEmployee.getMail());
@@ -82,7 +85,7 @@ public class EmployeeServiceTest {
                 .empStatus(empStatus).build();
 
         //when
-        DeptNotFoundException returnStatusMessage =   Assertions.assertThrows(DeptNotFoundException.class, ()->employeeService.createEmployee(request));
+        DeptNotFoundException returnStatusMessage =   Assertions.assertThrows(DeptNotFoundException.class, ()->employeeSignUpService.SignUpEmployee(request));
         Assertions.assertEquals(returnStatusMessage.getMessage(),"dept not found");
 
     }
@@ -104,7 +107,7 @@ public class EmployeeServiceTest {
                 .phone("01012341234")
                 .addr("seoul")
                 .empStatus(empStatus).build();
-        employeeService.createEmployee(request);
+        employeeSignUpService.SignUpEmployee(request);
 
         //when
         EmployeeRequset.CreateEmployee request2 = EmployeeRequset.CreateEmployee.builder()
@@ -120,7 +123,7 @@ public class EmployeeServiceTest {
                 .empStatus(empStatus).build();
 
         //then
-        Assertions.assertThrows(CheckEmailException.class, ()->employeeService.createEmployee(request2));
+        Assertions.assertThrows(CheckEmailException.class, ()->employeeSignUpService.SignUpEmployee(request2));
     }
 
 
