@@ -12,7 +12,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 //입력 받은 데이터
+
 public class EmployeeRequset {
+
     @Getter
     @Builder
     @ToString
@@ -41,13 +43,13 @@ public class EmployeeRequset {
         private EmpStatus empStatus;
 
         //입력받은 내부 클래스의 필드 값을 entity에 주입(DTO->entity)
-        public Employee toEmployee(Integer dept){
+        public Employee toEmployee(Integer dept, String passWord){
             return Employee.builder()
                     .deptNo(dept)
                     .position(position)
                     .name(name)
                     .mail(mail)
-                    .pw(pw)
+                    .pw(passWord)
                     .hireDate(hireDate)
                     .gender(gender)
                     .phone(phone)
