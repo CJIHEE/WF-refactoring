@@ -35,7 +35,4 @@ public class Employee {
     private String addr;
     private EmpStatus empStatus;
 
-
-
-
 }

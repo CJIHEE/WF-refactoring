@@ -6,10 +6,7 @@ import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeSignUpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,6 +23,12 @@ public class EmployeeController {
         log.info("CreateEmployee={}", request);
         return employeeSignUpService.SignUpEmployee(request);
     }
+    @GetMapping
+    public void test(){
+       log.info("testSuccess");
+    }
+
+
 
 }
 

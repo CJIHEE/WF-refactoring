@@ -23,6 +23,11 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/employees").permitAll()
                 .anyRequest().authenticated();
+        http.formLogin()
+                .defaultSuccessUrl("/employees")
+                .loginProcessingUrl("/login")
+                .usernameParameter("mail")
+                .passwordParameter("password");
         http.csrf().disable();
 
         return http.build();

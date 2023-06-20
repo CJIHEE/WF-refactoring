@@ -12,4 +12,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      //아이디 찾기
      Employee findBymail(String mail);
 
+
 }
