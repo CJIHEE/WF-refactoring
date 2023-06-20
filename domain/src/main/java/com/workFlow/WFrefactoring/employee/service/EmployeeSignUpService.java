@@ -25,7 +25,7 @@ public class EmployeeSignUpService {
         //dept 여부
         DeptDto deptDto = deptService.findBydeptNo(request.getDeptNo());
 
-        EmployeeResponse employeeResponse = employeeService.createEmployee(request);
+        EmployeeResponse employeeResponse = employeeService.createEmployee(request, deptDto);
 
         return employeeResponse;
     }
