@@ -3,16 +3,21 @@ package com.workFlow.WFrefactoring.security.domain;
 import com.workFlow.WFrefactoring.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RequiredArgsConstructor
 public class EmployeeDetails implements UserDetails {
     private final Employee employee;
+    private static final String ROLE_PREFIX = "ROLE_";
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + employee.getRole()));
+        return authorities;
     }
 
     @Override
