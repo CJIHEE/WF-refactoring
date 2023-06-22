@@ -2,8 +2,10 @@ package com.workFlow.WFrefactoring.employee;
 
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
+import com.workFlow.WFrefactoring.employee.service.EmployeeLoginService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeSignUpService;
+import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final EmployeeSignUpService employeeSignUpService;
+    private final EmployeeLoginService employeeLoginService;
     @PostMapping
     //command 입력받은 데이터
     public EmployeeResponse createEmployee(@RequestBody @Valid EmployeeRequset.CreateEmployee request){
@@ -24,8 +27,18 @@ public class EmployeeController {
         return employeeSignUpService.SignUpEmployee(request);
     }
     @GetMapping
-    public void test(){
+    public String test(){
        log.info("testSuccess");
+       return "success";
+    }
+
+    //회원가입
+    @PostMapping("/login")
+    public TokenDto login(@RequestBody EmployeeRequset.LoginEmployee request){
+        log.info("checkController={0}");
+        TokenDto tokenDto = employeeLoginService.login(request);
+        log.info("checkController={1}");
+        return tokenDto;
     }
 
 

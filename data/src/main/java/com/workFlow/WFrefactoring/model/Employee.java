@@ -36,6 +36,6 @@ public class Employee {
     private String addr;
     private EmpStatus empStatus;
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.EMPLOYEE;
+    private UserRole role;
 
 }

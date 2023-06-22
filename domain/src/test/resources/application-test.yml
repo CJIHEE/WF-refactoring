@@ -9,7 +9,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-
+  output:
+    ansi:
+      enabled: ALWAYS
 logging.level:
   org.hibernate:
     SQL: debug

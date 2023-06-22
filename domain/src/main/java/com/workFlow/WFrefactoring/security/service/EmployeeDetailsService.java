@@ -25,6 +25,8 @@ public class EmployeeDetailsService implements UserDetailsService {
         log.info("mail={}",mail);
         log.info("employee={}",employee.getMail());
         log.info("employeePw={}",employee.getPw());
+        log.info("authority={}",employee.getRole());
         return new EmployeeDetails(employee);
     }
+
 }

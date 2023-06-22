@@ -1,6 +1,6 @@
 dependencies {
     implementation project(':common')
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
     //runtimeOnly 'com.h2database:h2' // 테스트 코드 작성시 사용할 DB(H2)
 }
 
