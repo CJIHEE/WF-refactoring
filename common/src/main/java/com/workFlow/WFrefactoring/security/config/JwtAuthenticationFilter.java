@@ -19,22 +19,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        log.info("실제1 doFilterInternal");
         //1.Request Header 에서 JWT 토큰 추출
         String jwt = resolveToken(request);
 
-        //2.validateToken으로 토큰 유효성 검사
+        //2.validateToken으로 토큰 유효성 검사(토큰 있다면실행 / login요청 페이지에서는 적용X)
         if(StringUtils.hasText(jwt) && jwtTokenProvider.vaildateToken(jwt)){
             // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
             Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("authentication={}",String.valueOf(authentication));
+            log.info("예상7 doFilterInternal");
+            log.info("jwtProvider authentication={}",String.valueOf(authentication));
         }
-        log.info("request={}",String.valueOf(request));
+        log.info("실제2 request={}",request);
         filterChain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {
+        log.info("실제2 doFilterInternal");
         String token = request.getHeader("Authorization");
         if(StringUtils.hasText(token) && token.startsWith("Bearer")){
             return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값

@@ -35,9 +35,8 @@ public class EmployeeController {
     //회원가입
     @PostMapping("/login")
     public TokenDto login(@RequestBody EmployeeRequset.LoginEmployee request){
-        log.info("checkController={0}");
+        log.info("실제3 loginController");
         TokenDto tokenDto = employeeLoginService.login(request);
-        log.info("checkController={1}");
         return tokenDto;
     }
 

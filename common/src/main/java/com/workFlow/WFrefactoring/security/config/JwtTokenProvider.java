@@ -23,16 +23,17 @@ public class JwtTokenProvider {
 
     //토큰 생성
     public TokenDto generateToken(Authentication authentication) {
-
+        log.info("실제8 <jwtTokenProvider>");
         //권한
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         String authorities2 = authentication.getAuthorities().toString();
+        log.info("아마 authorities2는 캐시 되는듯?");
         String authoritiesName = authentication.getName();
 
-        log.info("authorities={}", authorities2);
+        log.info("실제 10 <jwtTokenProvider>");
         log.info("authoritiesToString={}", authorities2);
         log.info("authoritiesName={}", authoritiesName);
 
@@ -40,7 +41,7 @@ public class JwtTokenProvider {
 
         //Access Token
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(authoritiesName)
                 .claim("auth", authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()+timeOffset))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*30+timeOffset))//30분
@@ -64,7 +65,7 @@ public class JwtTokenProvider {
     //JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     //UsernamePasswordAuthenticationToken으로 보내 인증된 유저인지 확인
     public  Authentication getAuthentication(String accessToken){
-
+        log.info("예상9 jwtTokenProvider/getAuthentication");
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken).getBody();
         if(claims.get("auth") == null){
             throw new RuntimeException("권한 정보가 없는 토큰입니다");
@@ -83,6 +84,7 @@ public class JwtTokenProvider {
 
     //토근 정보를 검증
     public boolean vaildateToken(String token){
+        log.info("언제나올까");
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;

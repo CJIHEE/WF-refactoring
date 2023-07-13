@@ -32,15 +32,13 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST,"/employees","/employees/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling()                //예외처리
+                .exceptionHandling()//예외처리
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http.httpBasic().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
 
         return http.build();
     }

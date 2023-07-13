@@ -21,4 +21,14 @@ logging.level:
     type: trace
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyewkrqwekkeWERkdfksazblYcfPQye08f7MGEWRweVA9XkHa
+server:
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: 10407689
+    key-store-type: PKCS12
+    key-alias: spring
+  port: 8443
+
+
 
