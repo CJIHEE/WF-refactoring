@@ -44,12 +44,17 @@ public class JwtTokenProvider {
                 .setSubject(authoritiesName)
                 .claim("auth", authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()+timeOffset))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*30+timeOffset))//30분
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60))//30분 1000*60*30
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+        Date time = new Date(System.currentTimeMillis()+1000*60);
+
+        log.info("시간 " +time);
 
         //Refresh Token
         String refreshToken = Jwts.builder()
+                .setSubject(authoritiesName)
+                .claim("auth", authorities)
                 .setExpiration(new Date(System.currentTimeMillis()+7 * 24 * 60 * 60 * 1000+timeOffset))//7일
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
@@ -84,7 +89,7 @@ public class JwtTokenProvider {
 
     //토근 정보를 검증
     public boolean vaildateToken(String token){
-        log.info("언제나올까");
+        log.info("vaildateToken");
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
@@ -98,6 +103,11 @@ public class JwtTokenProvider {
             log.info("JWT claims string is empty", e);
         }
         return false;
+    }
+
+    //access토큰 만료시 access,refreshToken 재발급 내려주기
+    public static TokenDto setToken(TokenDto tokenDto){
+        return tokenDto;
     }
 
 }
