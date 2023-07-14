@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(token) && token.startsWith("Bearer")){
             return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
         }
-        return null;
+        throw new IllegalArgumentException("Invalid refresh token");
     }
 
     private String resolveRefreshToken(HttpServletRequest request){
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer")){
                 return refreshToken.substring(7);
         }
-        return null;
+        throw new IllegalArgumentException("Invalid refresh token");
     }
 }
 
