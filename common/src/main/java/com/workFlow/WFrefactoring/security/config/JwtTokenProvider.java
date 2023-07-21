@@ -2,8 +2,10 @@ package com.workFlow.WFrefactoring.security.config;
 
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,15 +14,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
-
+    private final RedisTemplate<String, String> redisTemplate;
     //토큰 생성
     public TokenDto generateToken(Authentication authentication) {
         log.info("실제8 <jwtTokenProvider>");
@@ -39,25 +44,43 @@ public class JwtTokenProvider {
 
         long timeOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환(시차)
 
+        long accessTokenExpirationTime = 1000*60; //30분 1000*60*30 (지금은 1분)
+        long refreshTokenExpirationTime = 7 * 24 * 60 * 60 * 1000; //7일 7 * 24 * 60 * 60 * 1000
+
+
         //Access Token
         String accessToken = Jwts.builder()
                 .setSubject(authoritiesName)
                 .claim("auth", authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()+timeOffset))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60))//30분 1000*60*30
+                .setExpiration(new Date(System.currentTimeMillis()+accessTokenExpirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-        Date time = new Date(System.currentTimeMillis()+1000*60);
 
-        log.info("시간 " +time);
+        log.info("날짜 : "+ String.valueOf(new Date(System.currentTimeMillis()+accessTokenExpirationTime)));
+
+        redisTemplate.opsForValue().set(
+                "ATK"+authoritiesName,
+                accessToken,
+                accessTokenExpirationTime,
+                TimeUnit.MILLISECONDS
+        );
 
         //Refresh Token
         String refreshToken = Jwts.builder()
                 .setSubject(authoritiesName)
                 .claim("auth", authorities)
-                .setExpiration(new Date(System.currentTimeMillis()+7 * 24 * 60 * 60 * 1000+timeOffset))//7일
+                .setExpiration(new Date(System.currentTimeMillis()+refreshTokenExpirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+
+        //redis에 refreshToken 저장
+        redisTemplate.opsForValue().set(
+                "RTK"+authoritiesName,
+                refreshToken,
+                refreshTokenExpirationTime,
+                TimeUnit.MILLISECONDS
+        );
 
         return TokenDto.builder()
                 .grantType("Bearer")
