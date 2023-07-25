@@ -1,5 +1,7 @@
 package com.workFlow.WFrefactoring.security.config;
 
+import com.workFlow.WFrefactoring.exception.BlackListToken;
+import com.workFlow.WFrefactoring.exception.CheckTokenException;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.BadLocationException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -26,6 +31,24 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
     private final RedisTemplate<String, String> redisTemplate;
+
+    public String resolveToken(HttpServletRequest request) {
+        log.info("실제2 doFilterInternal");
+        String token = request.getHeader("Authorization");
+        if(StringUtils.hasText(token) && token.startsWith("Bearer")){
+            return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
+        }
+        return null; //throw new IllegalArgumentException("Invalid refresh token");
+    }
+
+    public String resolveRefreshToken(HttpServletRequest request){
+        String refreshToken = request.getHeader("refreshToken");
+        if(StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer")){
+            return refreshToken.substring(7);
+        }
+        return null; //throw new IllegalArgumentException("Invalid refresh token");
+    }
+
     //토큰 생성
     public TokenDto generateToken(Authentication authentication) {
         log.info("실제8 <jwtTokenProvider>");
@@ -44,7 +67,7 @@ public class JwtTokenProvider {
 
         long timeOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환(시차)
 
-        long accessTokenExpirationTime = 1000*60; //30분 1000*60*30 (지금은 1분)
+        long accessTokenExpirationTime = 1000*60*30; //30분 1000*60*30 (1000*60은 1분)
         long refreshTokenExpirationTime = 7 * 24 * 60 * 60 * 1000; //7일 7 * 24 * 60 * 60 * 1000
 
 
@@ -133,4 +156,18 @@ public class JwtTokenProvider {
         return tokenDto;
     }
 
+    //JWT 토큰의 만료시간
+    public Long getExpiration(String accessToken){
+        Date expiration = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken).getBody().getExpiration();
+
+        long now = new Date().getTime();
+
+        return expiration.getTime() - now;
+    }
+    public void validateBlackListToken(String accessToken){
+        String blackList = redisTemplate.opsForValue().get(accessToken);
+        if(StringUtils.hasText(blackList)){
+            throw new BlackListToken("로그아웃된 사용자 입니다");
+        }
+    }
 }

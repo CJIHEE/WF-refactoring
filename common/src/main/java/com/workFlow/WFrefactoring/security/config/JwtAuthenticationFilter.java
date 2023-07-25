@@ -25,11 +25,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("실제1 doFilterInternal");
         //1.Request Header 에서 JWT 토큰 추출
-        String accessToken = resolveToken(request);
+        String accessToken = jwtTokenProvider.resolveToken(request);
         //refreash토큰 추출
-        String refreshToken = resolveRefreshToken(request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+
         log.info("엑세스토큰: " + accessToken);
         log.info("리프레쉬토큰:" + refreshToken);
+
+        //로그아웃 된 토큰인지 확인
+        jwtTokenProvider.validateBlackListToken(accessToken);
 
         //2.validateToken으로 토큰 유효성 검사(토큰 있다면실행 / login요청 페이지에서는 적용X) (redis 검증도 추가해서 가장 최신 accessToken만 사용가능)
         if(StringUtils.hasText(accessToken) && jwtTokenProvider.vaildateToken(accessToken) ){
@@ -65,22 +69,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String resolveToken(HttpServletRequest request) {
-        log.info("실제2 doFilterInternal");
-        String token = request.getHeader("Authorization");
-        if(StringUtils.hasText(token) && token.startsWith("Bearer")){
-            return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
-        }
-        return null; //throw new IllegalArgumentException("Invalid refresh token");
-    }
-
-    private String resolveRefreshToken(HttpServletRequest request){
-        String refreshToken = request.getHeader("refreshToken");
-        if(StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer")){
-                return refreshToken.substring(7);
-        }
-        return null; //throw new IllegalArgumentException("Invalid refresh token");
-    }
+//    private String resolveToken(HttpServletRequest request) {
+//        log.info("실제2 doFilterInternal");
+//        String token = request.getHeader("Authorization");
+//        if(StringUtils.hasText(token) && token.startsWith("Bearer")){
+//            return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
+//        }
+//        return null; //throw new IllegalArgumentException("Invalid refresh token");
+//    }
+//
+//    private String resolveRefreshToken(HttpServletRequest request){
+//        String refreshToken = request.getHeader("refreshToken");
+//        if(StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer")){
+//                return refreshToken.substring(7);
+//        }
+//        return null; //throw new IllegalArgumentException("Invalid refresh token");
+//    }
 
 }
 

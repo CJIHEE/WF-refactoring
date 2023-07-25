@@ -1,15 +1,19 @@
 package com.workFlow.WFrefactoring.employee.service;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.security.config.JwtTokenProvider;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +23,10 @@ public class EmployeeLoginService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final RedisTemplate<String, String> redisTemplate;
+
     @Transactional(readOnly=true)
-    public TokenDto login(EmployeeRequset.LoginEmployee request){
+    public TokenDto login(EmployeeRequest.LoginEmployee request){
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         log.info("실제4 <EmployeeloginService> 검증");
@@ -39,4 +45,23 @@ public class EmployeeLoginService {
     }
 
 
+    public void logout(HttpServletRequest request, String username) {
+        //SecurityContextHolder.clearContext();
+        //accessToken 추출
+        String accessToken = jwtTokenProvider.resolveToken(request);
+
+        //엑세스 토큰 남은 유효기산
+        Long expiration = jwtTokenProvider.getExpiration(accessToken);
+
+        //Redis BlackList 저장
+        redisTemplate.opsForValue().set(
+                accessToken,
+                "logout",
+                expiration,
+                TimeUnit.MILLISECONDS
+        );
+
+        //리프레쉬 토큰 삭제
+        redisTemplate.delete("RTK"+username);
+    }
 }

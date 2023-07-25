@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 //입력 받은 데이터
 
-public class EmployeeRequset {
+public class EmployeeRequest {
 
     @Getter
     @Builder
@@ -67,6 +67,13 @@ public class EmployeeRequset {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class LoginEmployee {
+        private String mail;
+        private String pw;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class LogoutEmployee{
         private String mail;
         private String pw;
     }

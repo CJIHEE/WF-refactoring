@@ -1,6 +1,6 @@
 package com.workFlow.WFrefactoring;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequset;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeSignUpService;
@@ -45,7 +45,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
-        EmployeeRequset.CreateEmployee request = EmployeeRequset.CreateEmployee.builder()
+        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -72,7 +72,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
-        EmployeeRequset.CreateEmployee request = EmployeeRequset.CreateEmployee.builder()
+        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(1000)
                 .position(position)
                 .name("TEST")
@@ -96,7 +96,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
-        EmployeeRequset.CreateEmployee request = EmployeeRequset.CreateEmployee.builder()
+        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -110,7 +110,7 @@ public class EmployeeServiceTest {
         employeeSignUpService.SignUpEmployee(request);
 
         //when
-        EmployeeRequset.CreateEmployee request2 = EmployeeRequset.CreateEmployee.builder()
+        EmployeeRequest.CreateEmployee request2 = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
