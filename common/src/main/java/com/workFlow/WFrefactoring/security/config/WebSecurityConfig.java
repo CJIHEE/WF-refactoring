@@ -30,7 +30,10 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChian(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.httpBasic().disable().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/employees","/employees/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -39,8 +42,7 @@ public class WebSecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,redisTemplate), UsernamePasswordAuthenticationFilter.class);
-        http.httpBasic().disable().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
         return http.build();
     }

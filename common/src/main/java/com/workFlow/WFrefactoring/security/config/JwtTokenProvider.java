@@ -33,7 +33,6 @@ public class JwtTokenProvider {
     private final RedisTemplate<String, String> redisTemplate;
 
     public String resolveToken(HttpServletRequest request) {
-        log.info("실제2 doFilterInternal");
         String token = request.getHeader("Authorization");
         if(StringUtils.hasText(token) && token.startsWith("Bearer")){
             return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
@@ -51,25 +50,18 @@ public class JwtTokenProvider {
 
     //토큰 생성
     public TokenDto generateToken(Authentication authentication) {
-        log.info("실제8 <jwtTokenProvider>");
         //권한
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         String authorities2 = authentication.getAuthorities().toString();
-        log.info("아마 authorities2는 캐시 되는듯?");
         String authoritiesName = authentication.getName();
-
-        log.info("실제 10 <jwtTokenProvider>");
-        log.info("authoritiesToString={}", authorities2);
-        log.info("authoritiesName={}", authoritiesName);
 
         long timeOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환(시차)
 
         long accessTokenExpirationTime = 1000*60*30; //30분 1000*60*30 (1000*60은 1분)
         long refreshTokenExpirationTime = 7 * 24 * 60 * 60 * 1000; //7일 7 * 24 * 60 * 60 * 1000
-
 
         //Access Token
         String accessToken = Jwts.builder()
@@ -79,9 +71,9 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis()+accessTokenExpirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+        //log.info("날짜 : "+ String.valueOf(new Date(System.currentTimeMillis()+accessTokenExpirationTime)));
 
-        log.info("날짜 : "+ String.valueOf(new Date(System.currentTimeMillis()+accessTokenExpirationTime)));
-
+        //redis에 accessToken 저장
         redisTemplate.opsForValue().set(
                 "ATK"+authoritiesName,
                 accessToken,
@@ -116,7 +108,6 @@ public class JwtTokenProvider {
     //JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     //UsernamePasswordAuthenticationToken으로 보내 인증된 유저인지 확인
     public  Authentication getAuthentication(String accessToken){
-        log.info("예상9 jwtTokenProvider/getAuthentication");
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken).getBody();
         if(claims.get("auth") == null){
             throw new RuntimeException("권한 정보가 없는 토큰입니다");
@@ -135,7 +126,6 @@ public class JwtTokenProvider {
 
     //토근 정보를 검증
     public boolean vaildateToken(String token){
-        log.info("vaildateToken");
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;

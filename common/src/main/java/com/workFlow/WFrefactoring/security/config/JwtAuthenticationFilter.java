@@ -23,17 +23,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final RedisTemplate<String, String> redisTemplate;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("실제1 doFilterInternal");
         //1.Request Header 에서 JWT 토큰 추출
         String accessToken = jwtTokenProvider.resolveToken(request);
         //refreash토큰 추출
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
 
-        log.info("엑세스토큰: " + accessToken);
-        log.info("리프레쉬토큰:" + refreshToken);
-
         //로그아웃 된 토큰인지 확인
-        jwtTokenProvider.validateBlackListToken(accessToken);
+        if(StringUtils.hasText(accessToken)) jwtTokenProvider.validateBlackListToken(accessToken);
 
         //2.validateToken으로 토큰 유효성 검사(토큰 있다면실행 / login요청 페이지에서는 적용X) (redis 검증도 추가해서 가장 최신 accessToken만 사용가능)
         if(StringUtils.hasText(accessToken) && jwtTokenProvider.vaildateToken(accessToken) ){
@@ -45,11 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new CheckTokenException("최신 토큰을 사용하세요");
             }
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("예상7 doFilterInternal");
-            log.info("jwtProvider authentication={}",String.valueOf(authentication));
         }
         //accessToken 만료시 refreshToken 검증 (redis 검증도 추가해서 가장 최신 refreshToken만 사용가능)
-        else if(!jwtTokenProvider.vaildateToken(accessToken) && jwtTokenProvider.vaildateToken(refreshToken)){
+        else if(StringUtils.hasText(refreshToken) && !jwtTokenProvider.vaildateToken(accessToken) && jwtTokenProvider.vaildateToken(refreshToken)){
             //검증 통과시 refreshToken에서 권한정보 가져오기
             Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
             // 가장 최근 토큰인지 확인
@@ -61,30 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
             //토큰 내려주기
             JwtTokenProvider.setToken(tokenDto);
-            log.info("재발급");
             //SecurityContext 에 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        log.info("실제2 request={}",request);
         filterChain.doFilter(request, response);
     }
-
-//    private String resolveToken(HttpServletRequest request) {
-//        log.info("실제2 doFilterInternal");
-//        String token = request.getHeader("Authorization");
-//        if(StringUtils.hasText(token) && token.startsWith("Bearer")){
-//            return token.substring(7); // "Bearer "를 뺀 값, 즉 토큰 값
-//        }
-//        return null; //throw new IllegalArgumentException("Invalid refresh token");
-//    }
-//
-//    private String resolveRefreshToken(HttpServletRequest request){
-//        String refreshToken = request.getHeader("refreshToken");
-//        if(StringUtils.hasText(refreshToken) && refreshToken.startsWith("Bearer")){
-//                return refreshToken.substring(7);
-//        }
-//        return null; //throw new IllegalArgumentException("Invalid refresh token");
-//    }
 
 }
 

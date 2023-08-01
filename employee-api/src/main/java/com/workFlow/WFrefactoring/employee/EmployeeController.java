@@ -24,8 +24,9 @@ public class EmployeeController{
     private final EmployeeService employeeService;
     private final EmployeeSignUpService employeeSignUpService;
     private final EmployeeLoginService employeeLoginService;
+
+    //회원가입
     @PostMapping
-    //command 입력받은 데이터
     public EmployeeResponse createEmployee(@RequestBody @Valid EmployeeRequest.CreateEmployee request){
         log.info("CreateEmployee={}", request);
         return employeeSignUpService.SignUpEmployee(request);
@@ -36,10 +37,9 @@ public class EmployeeController{
        return "success";
     }
 
-    //회원가입
+    //로그인
     @PostMapping("/login")
     public TokenDto login(@RequestBody EmployeeRequest.LoginEmployee request){
-        log.info("실제3 loginController");
         TokenDto tokenDto = employeeLoginService.login(request);
         return tokenDto;
     }

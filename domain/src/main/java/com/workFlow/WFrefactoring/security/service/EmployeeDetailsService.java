@@ -22,11 +22,6 @@ public class EmployeeDetailsService implements UserDetailsService {
         if(employee == null){
             throw new UsernameNotFoundException("user not found");
         }
-        log.info("실제5 <userdatailsService>");
-        log.info("mail={}",mail);
-        log.info("employee={}",employee.getMail());
-        log.info("employeePw={}",employee.getPw());
-        log.info("authority={}",employee.getRole());
         return new EmployeeDetails(employee);
     }
 
