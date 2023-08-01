@@ -3,6 +3,7 @@ package com.workFlow.WFrefactoring.model;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
+import com.workFlow.WFrefactoring.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,8 +35,7 @@ public class Employee {
     private String  phone;
     private String addr;
     private EmpStatus empStatus;
-
-
-
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
 }

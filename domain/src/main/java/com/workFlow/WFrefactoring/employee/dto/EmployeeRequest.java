@@ -3,6 +3,7 @@ package com.workFlow.WFrefactoring.employee.dto;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
+import com.workFlow.WFrefactoring.enums.UserRole;
 import com.workFlow.WFrefactoring.model.Employee;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 //입력 받은 데이터
 
-public class EmployeeRequset {
+public class EmployeeRequest {
 
     @Getter
     @Builder
@@ -41,6 +42,8 @@ public class EmployeeRequset {
         private String addr;
         @NotNull
         private EmpStatus empStatus;
+        @NotNull
+        private UserRole role;
 
         //입력받은 내부 클래스의 필드 값을 entity에 주입(DTO->entity)
         public Employee toEmployee(Integer dept, String passWord){
@@ -55,7 +58,23 @@ public class EmployeeRequset {
                     .phone(phone)
                     .addr(addr)
                     .empStatus(empStatus)
+                    .role(role)
                     .build();
         }
+    }
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class LoginEmployee {
+        private String mail;
+        private String pw;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class LogoutEmployee{
+        private String mail;
+        private String pw;
     }
 }
