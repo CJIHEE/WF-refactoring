@@ -1,6 +1,8 @@
 package com.workFlow.WFrefactoring.repository;
 
 import com.workFlow.WFrefactoring.model.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
      //아이디 찾기
      Employee findBymail(String mail);
+
+     Page<Employee> findAll(Pageable pageable);
 
 
 }

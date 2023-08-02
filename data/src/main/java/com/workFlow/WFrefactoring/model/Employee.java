@@ -25,15 +25,18 @@ public class Employee {
     @Column(name="emp_no")
     private Long empNo;
     private Integer deptNo;
+    @Enumerated(EnumType.STRING)
     private Position position;
     private String name;
     private String mail;
     private String pw;
     private String hireDate;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String retirementDate;
     private String  phone;
     private String addr;
+    @Enumerated(EnumType.STRING)
     private EmpStatus empStatus;
     @Enumerated(EnumType.STRING)
     private UserRole role;

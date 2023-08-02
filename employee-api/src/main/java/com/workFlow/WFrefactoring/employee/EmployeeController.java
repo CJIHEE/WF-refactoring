@@ -9,12 +9,15 @@ import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("employees")
@@ -31,11 +34,6 @@ public class EmployeeController{
         log.info("CreateEmployee={}", request);
         return employeeSignUpService.SignUpEmployee(request);
     }
-    @GetMapping
-    public String test(){
-       log.info("testSuccess");
-       return "success";
-    }
 
     //로그인
     @PostMapping("/login")
@@ -51,7 +49,11 @@ public class EmployeeController{
         return "success";
     }
 
-
+    //회원 조회
+    @GetMapping
+    private List<Object> getAllEmployee(Pageable pageable){
+        return employeeService. getAllEmployee(pageable);
+    }
 
 }
 
