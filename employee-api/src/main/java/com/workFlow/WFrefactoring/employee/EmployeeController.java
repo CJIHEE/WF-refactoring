@@ -49,11 +49,18 @@ public class EmployeeController{
         return "success";
     }
 
-    //회원 조회
+    //전체 회원 조회
     @GetMapping
     private List<Object> getAllEmployee(Pageable pageable){
-        return employeeService. getAllEmployee(pageable);
+        return employeeService.getAllEmployee(pageable);
     }
+
+    //특정 사원 조회 (empNo로 조회)
+    @GetMapping("/{empNo}")
+    private EmployeeResponse getEmployee(@PathVariable("empNo") Long empNo){
+        return employeeService.getEmployee(empNo);
+    };
+
 
 }
 

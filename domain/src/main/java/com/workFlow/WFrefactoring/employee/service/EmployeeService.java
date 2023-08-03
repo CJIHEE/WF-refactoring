@@ -5,18 +5,17 @@ import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
+import com.workFlow.WFrefactoring.exception.UserNotFoundException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import javax.sound.midi.Soundbank;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,4 +67,12 @@ public class EmployeeService {
 
         return response;
     }
+
+    //특정 사원 조회
+    public EmployeeResponse getEmployee(Long empNo) {
+        Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UserNotFoundException("user not found"));
+        return EmployeeResponse.toVO(employee);
+    }
+
+
 }
