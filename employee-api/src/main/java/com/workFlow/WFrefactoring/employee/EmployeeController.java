@@ -4,14 +4,10 @@ import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeLoginService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
-import com.workFlow.WFrefactoring.employee.service.EmployeeSignUpService;
-import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +28,7 @@ public class EmployeeController{
     @PostMapping
     public EmployeeResponse createEmployee(@RequestBody @Valid EmployeeRequest.CreateEmployee request){
         log.info("CreateEmployee={}", request);
-        return employeeSignUpService.SignUpEmployee(request);
+        return employeeService.createEmployee(request);
     }
 
     //로그인
@@ -61,6 +57,13 @@ public class EmployeeController{
         return employeeService.getEmployee(empNo);
     };
 
+    //회원 정보 업데이트
+    @PutMapping("/{empNo}")
+    private EmployeeResponse updateEmployee(@PathVariable("empNo") Long empNo,
+                                            @RequestBody EmployeeRequest.UpdateEmployee request,
+                                            Principal principal){
+        return employeeService.updateEmployee(empNo,request,principal.getName());
+    }
 
 }
 

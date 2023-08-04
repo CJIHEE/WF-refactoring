@@ -78,6 +78,17 @@ public class EmployeeRequest {
         private String pw;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UpdateEmployee{
+        private Integer deptNo;
+        private String addr;
+        private Position position;
+        private String phone;
+        private String retirementDate;
+        private EmpStatus empStatus;
 
+    }
 
 }
