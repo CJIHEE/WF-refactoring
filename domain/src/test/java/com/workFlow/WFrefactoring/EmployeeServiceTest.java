@@ -6,15 +6,25 @@ import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
+import com.workFlow.WFrefactoring.enums.UserRole;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
+import com.workFlow.WFrefactoring.security.config.JwtTokenProvider;
+import com.workFlow.WFrefactoring.security.config.RedisConfig;
+import com.workFlow.WFrefactoring.security.config.WebSecurityConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -27,12 +37,14 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @SpringBootTest
 @ActiveProfiles("test")
 public class EmployeeServiceTest {
+    @MockBean
+    private RedisTemplate<String, Object> redisTemplate;
+    @MockBean
+    private UserDetailsService userDetailsService;
     @Autowired
     private EmployeeService employeeService;
     @Autowired
     private EmployeeRepository employeeRepository;
-    @Autowired
-    private EmployeeSignUpService employeeSignUpService;
     @AfterEach
     public void tearDown(){
         employeeRepository.deleteAllInBatch();
@@ -44,6 +56,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
+        UserRole userRole = UserRole.USER;
         EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
@@ -54,10 +67,11 @@ public class EmployeeServiceTest {
                 .gender(gender)
                 .phone("01012341234")
                 .addr("seoul")
-                .empStatus(empStatus).build();
+                .empStatus(empStatus)
+                .role(userRole).build();
 
         //when
-        EmployeeResponse newEmployee = employeeSignUpService.SignUpEmployee(request);
+        EmployeeResponse newEmployee = employeeService.createEmployee(request);
 
         //then
         Employee findEmployee = employeeRepository.findBymail(newEmployee.getMail());
@@ -71,6 +85,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
+        UserRole userRole = UserRole.USER;
         EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(1000)
                 .position(position)
@@ -81,10 +96,11 @@ public class EmployeeServiceTest {
                 .gender(gender)
                 .phone("01012341234")
                 .addr("seoul")
-                .empStatus(empStatus).build();
+                .empStatus(empStatus)
+                .role(userRole).build();
 
         //when
-        DeptNotFoundException returnStatusMessage =   Assertions.assertThrows(DeptNotFoundException.class, ()->employeeSignUpService.SignUpEmployee(request));
+        DeptNotFoundException returnStatusMessage =   Assertions.assertThrows(DeptNotFoundException.class, ()->employeeService.createEmployee(request));
         Assertions.assertEquals(returnStatusMessage.getMessage(),"dept not found");
 
     }
@@ -95,6 +111,7 @@ public class EmployeeServiceTest {
         Position position = Position.EMPLOYEE;
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
+        UserRole userRole = UserRole.USER;
         EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
@@ -105,8 +122,9 @@ public class EmployeeServiceTest {
                 .gender(gender)
                 .phone("01012341234")
                 .addr("seoul")
-                .empStatus(empStatus).build();
-        employeeSignUpService.SignUpEmployee(request);
+                .empStatus(empStatus)
+                .role(userRole).build();
+        employeeService.createEmployee(request);
 
         //when
         EmployeeRequest.CreateEmployee request2 = EmployeeRequest.CreateEmployee.builder()
@@ -122,7 +140,7 @@ public class EmployeeServiceTest {
                 .empStatus(empStatus).build();
 
         //then
-        Assertions.assertThrows(CheckEmailException.class, ()->employeeSignUpService.SignUpEmployee(request2));
+        Assertions.assertThrows(CheckEmailException.class, ()->employeeService.createEmployee(request2));
     }
 
 

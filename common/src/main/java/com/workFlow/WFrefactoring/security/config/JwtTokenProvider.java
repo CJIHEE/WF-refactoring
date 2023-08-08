@@ -32,6 +32,7 @@ public class JwtTokenProvider {
     private String secretKey;
     private final RedisTemplate<String, String> redisTemplate;
 
+
     public String resolveToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if(StringUtils.hasText(token) && token.startsWith("Bearer")){

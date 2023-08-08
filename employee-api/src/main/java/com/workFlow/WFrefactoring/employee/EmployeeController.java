@@ -21,7 +21,6 @@ import java.util.List;
 @Slf4j
 public class EmployeeController{
     private final EmployeeService employeeService;
-    private final EmployeeSignUpService employeeSignUpService;
     private final EmployeeLoginService employeeLoginService;
 
     //회원가입
