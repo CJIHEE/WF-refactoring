@@ -61,7 +61,7 @@ public class EmployeeController{
     //회원 정보 업데이트
     @PutMapping("/{empNo}")
     private EmployeeResponse updateEmployee(@PathVariable("empNo") Long empNo,
-                                            @RequestBody EmployeeRequest.UpdateEmployee request,
+                                            @RequestBody @Valid EmployeeRequest.UpdateEmployee request,
                                             Principal principal){
         //log.info("userdetail객체 : " + employeeDetails.getUsername());
         return employeeService.updateEmployee(empNo,request,principal.getName());
