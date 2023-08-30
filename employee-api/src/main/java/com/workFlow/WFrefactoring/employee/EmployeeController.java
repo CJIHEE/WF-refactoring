@@ -4,6 +4,7 @@ import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeLoginService;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
+import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.List;
 public class EmployeeController{
     private final EmployeeService employeeService;
     private final EmployeeLoginService employeeLoginService;
+    //private final EmployeeDetails employeeDetails;
 
     //회원가입
     @PostMapping
@@ -46,8 +48,8 @@ public class EmployeeController{
 
     //전체 회원 조회
     @GetMapping
-    private List<Object> getAllEmployee(Pageable pageable){
-        return employeeService.getAllEmployee(pageable);
+    private List<EmployeeResponse> getAllEmployee(Long lastEmpNo, Integer pageSize){
+        return employeeService.getAllEmployee(lastEmpNo, pageSize);
     }
 
     //특정 사원 조회 (empNo로 조회)
@@ -61,6 +63,7 @@ public class EmployeeController{
     private EmployeeResponse updateEmployee(@PathVariable("empNo") Long empNo,
                                             @RequestBody EmployeeRequest.UpdateEmployee request,
                                             Principal principal){
+        //log.info("userdetail객체 : " + employeeDetails.getUsername());
         return employeeService.updateEmployee(empNo,request,principal.getName());
     }
 

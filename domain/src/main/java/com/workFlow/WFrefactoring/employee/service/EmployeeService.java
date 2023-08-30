@@ -1,7 +1,6 @@
 package com.workFlow.WFrefactoring.employee.service;
 
-import java.security.Principal;
-import java.util.*;
+import com.workFlow.WFrefactoring.repository.RepositoryCustom.EmployeeRepositoryCustom;
 import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.dept.service.DeptService;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
@@ -13,8 +12,6 @@ import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,27 +49,17 @@ public class EmployeeService {
 
     //전체 회원 조회
     @Transactional
-    public List<Object> getAllEmployee(Pageable pageable) {
+    public List<EmployeeResponse> getAllEmployee(Long lastEmpNo, Integer pageSize) {
+        if(pageSize == null) pageSize = 5;
 
-        Page<Employee> page = employeeRepository.findAll(pageable);
-        List<Employee> employees = page.getContent();
-        List<Object> response = new ArrayList<>();
+        List<Employee> empList = employeeRepository.findEmpAll(lastEmpNo, pageSize);
+        List<EmployeeResponse> response = new ArrayList<>();
 
-        if(!employees.isEmpty()){
-
-            Map<String, Integer> totalMap = new HashMap<>();
-            totalMap.put("total",page.getTotalPages());
-
-            response.add(totalMap);
-
-            for(Employee employee : employees){
+        if(!empList.isEmpty()){
+            for(Employee employee : empList){
                 response.add(EmployeeResponse.toVO(employee));
             }
         }
-        else{
-            response.add("조회된 회원이 없습니다");
-        }
-
         return response;
     }
 
