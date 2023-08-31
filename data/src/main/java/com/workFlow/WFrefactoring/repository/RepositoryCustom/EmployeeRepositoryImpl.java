@@ -19,12 +19,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom{
         QEmployee employee = QEmployee.employee;
         return queryFactory
                 .selectFrom(employee)
-                .where(ltEmpNo(lastEmpNo))
+                .where(gtEmpNo(lastEmpNo))
                 .limit(pageSize)
                 .fetch();
     }
 
-    private BooleanExpression ltEmpNo(Long lastEmpNo){
+    private BooleanExpression gtEmpNo(Long lastEmpNo){
         QEmployee employee = QEmployee.employee;
         return lastEmpNo == null ? null : employee.empNo.gt(lastEmpNo);
     }

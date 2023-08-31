@@ -3,6 +3,7 @@ package com.workFlow.WFrefactoring.security.config;
 import com.workFlow.WFrefactoring.exception.BlackListToken;
 import com.workFlow.WFrefactoring.exception.CheckTokenException;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
+import com.workFlow.WFrefactoring.security.service.EmployeeDetailsService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +33,7 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
     private final RedisTemplate<String, String> redisTemplate;
+    private final EmployeeDetailsService employeeDetailsService;
 
 
     public String resolveToken(HttpServletRequest request) {
@@ -110,19 +113,20 @@ public class JwtTokenProvider {
     //UsernamePasswordAuthenticationToken으로 보내 인증된 유저인지 확인
     public  Authentication getAuthentication(String accessToken){
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken).getBody();
-        if(claims.get("auth") == null){
-            throw new RuntimeException("권한 정보가 없는 토큰입니다");
-        }
-
-        //권한
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+//        if(claims.get("auth") == null){
+//            throw new RuntimeException("권한 정보가 없는 토큰입니다");
+//        }
+//
+//        //권한
+//        Collection<? extends GrantedAuthority> authorities =
+//                Arrays.stream(claims.get("auth").toString().split(","))
+//                        .map(SimpleGrantedAuthority::new)
+//                        .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return  new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        //UserDetails principal = new User(claims.getSubject(), "", authorities);
+        UserDetails userDetails = employeeDetailsService.loadUserByUsername(claims.getSubject());
+        return  new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //토근 정보를 검증

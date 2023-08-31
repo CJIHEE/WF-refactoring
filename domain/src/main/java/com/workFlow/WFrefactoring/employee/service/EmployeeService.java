@@ -10,6 +10,7 @@ import com.workFlow.WFrefactoring.exception.UserNotFoundException;
 import com.workFlow.WFrefactoring.exception.checkAutenticationException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
+import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -72,11 +73,11 @@ public class EmployeeService {
 
     //회원 정보 업데이트
     @Transactional
-    public EmployeeResponse updateEmployee(Long empNo, EmployeeRequest.UpdateEmployee request, String mail) {
+    public EmployeeResponse updateEmployee(Long empNo, EmployeeRequest.UpdateEmployee request, EmployeeDetails employeeDetails) {
 
         Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UsernameNotFoundException("user not found"));
         //로그인한 본인의 정보만 변경 가능
-        if(employee.getMail().equals(mail)){
+        if(employee.getMail().equals(employeeDetails.getUsername())){
             //dept 여부
             deptService.findBydeptNo(request.getDeptNo());
 
