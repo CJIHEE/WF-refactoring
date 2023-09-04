@@ -2,8 +2,8 @@ package com.workFlow.WFrefactoring.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class checkAutenticationException extends ApiException{
-    public checkAutenticationException(String msg) {
+public class CheckAutenticationException extends ApiException{
+    public CheckAutenticationException(String msg) {
         super(msg);
     }
 

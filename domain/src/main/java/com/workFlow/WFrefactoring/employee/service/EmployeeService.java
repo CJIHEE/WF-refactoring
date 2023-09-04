@@ -1,13 +1,12 @@
 package com.workFlow.WFrefactoring.employee.service;
 
-import com.workFlow.WFrefactoring.repository.RepositoryCustom.EmployeeRepositoryCustom;
 import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.dept.service.DeptService;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.UserNotFoundException;
-import com.workFlow.WFrefactoring.exception.checkAutenticationException;
+import com.workFlow.WFrefactoring.exception.CheckAutenticationException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,7 +73,7 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UsernameNotFoundException("user not found"));
         //로그인한 본인의 정보만 변경 가능
         if(!employee.getMail().equals(employeeDetails.getUsername())){
-            throw new checkAutenticationException("user not match");
+            throw new CheckAutenticationException("user not match");
         }
         //dept 여부
         deptService.findBydeptNo(request.getDeptNo());

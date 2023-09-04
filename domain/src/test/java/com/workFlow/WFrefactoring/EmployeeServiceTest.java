@@ -11,6 +11,7 @@ import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
+import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
@@ -35,10 +40,16 @@ public class EmployeeServiceTest {
     private RedisTemplate<String, Object> redisTemplate;
     @MockBean
     private UserDetailsService userDetailsService;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private EmployeeService employeeService;
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    public EmployeeServiceTest() {
+    }
+
     @AfterEach
     public void tearDown(){
         employeeRepository.deleteAllInBatch();
@@ -69,7 +80,7 @@ public class EmployeeServiceTest {
 
         //then
         Employee findEmployee = employeeRepository.findBymail(newEmployee.getMail());
-        Assertions.assertEquals(newEmployee.getMail(), findEmployee.getMail());
+        assertEquals(newEmployee.getMail(), findEmployee.getMail());
 
     }
 
@@ -95,7 +106,7 @@ public class EmployeeServiceTest {
 
         //when
         DeptNotFoundException returnStatusMessage =   Assertions.assertThrows(DeptNotFoundException.class, ()->employeeService.createEmployee(request));
-        Assertions.assertEquals(returnStatusMessage.getMessage(),"dept not found");
+        assertEquals(returnStatusMessage.getMessage(),"dept not found");
 
     }
 
@@ -137,6 +148,85 @@ public class EmployeeServiceTest {
         Assertions.assertThrows(CheckEmailException.class, ()->employeeService.createEmployee(request2));
     }
 
+//    @Test
+//    public void 본인확인(){
+//
+//        //given
+//        Position position = Position.EMPLOYEE;
+//        Gender gender = Gender.FEMALE;
+//        EmpStatus empStatus = EmpStatus.INCUMBENT;
+//        UserRole userRole = UserRole.USER;
+//        Employee employee = Employee.builder()
+//                .deptNo(100)
+//                .position(position)
+//                .name("TEST")
+//                .mail("test01@naver.com")
+//                .pw("Qwer1234$")
+//                .hireDate("2022-05-13")
+//                .gender(gender)
+//                .phone("01012341234")
+//                .addr("seoul")
+//                .empStatus(empStatus)
+//                .role(userRole).build();
+//
+//        //when
+//        EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
+//                .deptNo(100)
+//                .position(Position.EMPLOYEE)
+//                .phone("01012341234")
+//                .addr("change")
+//                .empStatus(empStatus).build();
+//
+//        EmployeeDetails employeeDetails = new EmployeeDetails(employee);
+//        employeeDetails.set
+//    }
+
+    @Test
+    public void 회원정보변경(){
+
+        //given
+        Position position = Position.EMPLOYEE;
+        Gender gender = Gender.FEMALE;
+        EmpStatus empStatus = EmpStatus.INCUMBENT;
+        UserRole userRole = UserRole.USER;
+        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
+                .deptNo(100)
+                .position(position)
+                .name("TEST")
+                .mail("test01@naver.com")
+                .pw("Qwer1234$")
+                .hireDate("2022-05-13")
+                .gender(gender)
+                .phone("01012341234")
+                .addr("seoul")
+                .empStatus(empStatus)
+                .role(userRole).build();
+        employeeService.createEmployee(request);
+
+        //when
+        EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
+                .deptNo(10)
+                .position(Position.DIRECTOR)
+                .phone("01012341234")
+                .addr("change")
+                .empStatus(empStatus).build();
+
+        Employee employee= employeeRepository.findBymail(request.getMail());
+
+        EmployeeDetails employeeDetails = new EmployeeDetails(employee);
+
+        EmployeeResponse response = employeeService.updateEmployee(employee.getEmpNo(), updateEmployee,employeeDetails);
+
+        //then
+        assertNotNull(response);
+        assertEquals(updateEmployee.getDeptNo(), response.getDeptNo());
+        assertEquals(updateEmployee.getAddr(), response.getAddr());
+        assertEquals(updateEmployee.getPosition(), response.getPosition());
+        assertEquals(updateEmployee.getPhone(), response.getPhone());
+        assertEquals(updateEmployee.getRetirementDate(), response.getRetirementDate());
+        assertEquals(updateEmployee.getEmpStatus(), response.getEmpStatus());
+
+    }
 
 
 

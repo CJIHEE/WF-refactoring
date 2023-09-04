@@ -21,4 +21,4 @@ logging.level:
     SQL: debug
     type: trace
 jwt:
-  secret: secret-key-test
+  secret: VlwEyVBsYt9V7zq57TejMnVUyewkrqwekkeWERkdfksazblYcfPQye08f7MGEWRweVA9XkHa

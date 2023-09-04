@@ -79,6 +79,7 @@ public class EmployeeRequest {
     }
 
     @Getter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateEmployee{
@@ -88,6 +89,7 @@ public class EmployeeRequest {
         private String phone;
         private String retirementDate;
         private EmpStatus empStatus;
+
 
     }
 
