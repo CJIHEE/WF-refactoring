@@ -74,20 +74,18 @@ public class EmployeeService {
 
         Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UsernameNotFoundException("user not found"));
         //로그인한 본인의 정보만 변경 가능
-        if(employee.getMail().equals(employeeDetails.getUsername())){
-            //dept 여부
-            deptService.findBydeptNo(request.getDeptNo());
-
-            employee.updateEmployee(request.getDeptNo(),
-                    request.getAddr(), request.getPosition(),
-                    request.getPhone(), request.getRetirementDate(),
-                    request.getEmpStatus());
-
-            return EmployeeResponse.toVO(employee);
-        }
-        else{
+        if(!employee.getMail().equals(employeeDetails.getUsername())){
             throw new checkAutenticationException("user not match");
         }
+        //dept 여부
+        deptService.findBydeptNo(request.getDeptNo());
+
+        employee.updateEmployee(request.getDeptNo(),
+                request.getAddr(), request.getPosition(),
+                request.getPhone(), request.getRetirementDate(),
+                request.getEmpStatus());
+
+        return EmployeeResponse.toVO(employee);
 
     }
 }
