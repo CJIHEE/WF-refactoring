@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,14 +55,10 @@ public class EmployeeService {
         if(pageSize == null) pageSize = 5;
 
         List<Employee> empList = employeeRepository.findEmpAll(lastEmpNo, pageSize);
-        List<EmployeeResponse> response = new ArrayList<>();
 
-        if(!empList.isEmpty()){
-            for(Employee employee : empList){
-                response.add(EmployeeResponse.toVO(employee));
-            }
-        }
-        return response;
+        return empList.stream() //스트림생성
+                .map(EmployeeResponse::toVO) //가공
+                .collect(Collectors.toList());
     }
 
     //특정 사원 조회
