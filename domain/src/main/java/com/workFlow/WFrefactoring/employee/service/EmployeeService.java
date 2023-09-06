@@ -75,13 +75,9 @@ public class EmployeeService {
         if(!employee.getMail().equals(employeeDetails.getUsername())){
             throw new CheckAutenticationException("user not match");
         }
-        //dept 여부
-        deptService.findBydeptNo(request.getDeptNo());
 
-        employee.updateEmployee(request.getDeptNo(),
-                request.getAddr(), request.getPosition(),
-                request.getPhone(), request.getRetirementDate(),
-                request.getEmpStatus());
+        employee.updateEmployee(request.getAddr(), request.getPosition(),
+                request.getPhone(), request.getEmpStatus());
 
         return EmployeeResponse.toVO(employee);
 

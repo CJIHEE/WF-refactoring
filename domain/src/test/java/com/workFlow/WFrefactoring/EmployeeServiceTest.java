@@ -147,7 +147,39 @@ public class EmployeeServiceTest {
         //then
         Assertions.assertThrows(CheckEmailException.class, ()->employeeService.createEmployee(request2));
     }
-    
+
+//    @Test
+//    public void 본인확인(){
+//
+//        //given
+//        Position position = Position.EMPLOYEE;
+//        Gender gender = Gender.FEMALE;
+//        EmpStatus empStatus = EmpStatus.INCUMBENT;
+//        UserRole userRole = UserRole.USER;
+//        Employee employee = Employee.builder()
+//                .deptNo(100)
+//                .position(position)
+//                .name("TEST")
+//                .mail("test01@naver.com")
+//                .pw("Qwer1234$")
+//                .hireDate("2022-05-13")
+//                .gender(gender)
+//                .phone("01012341234")
+//                .addr("seoul")
+//                .empStatus(empStatus)
+//                .role(userRole).build();
+//
+//        //when
+//        EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
+//                .deptNo(100)
+//                .position(Position.EMPLOYEE)
+//                .phone("01012341234")
+//                .addr("change")
+//                .empStatus(empStatus).build();
+//
+//        EmployeeDetails employeeDetails = new EmployeeDetails(employee);
+//        employeeDetails.set
+//    }
 
     @Test
     public void 회원정보변경(){
@@ -173,7 +205,6 @@ public class EmployeeServiceTest {
 
         //when
         EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
-                .deptNo(10)
                 .position(Position.DIRECTOR)
                 .phone("01012341234")
                 .addr("change")
@@ -187,11 +218,9 @@ public class EmployeeServiceTest {
 
         //then
         assertNotNull(response);
-        assertEquals(updateEmployee.getDeptNo(), response.getDeptNo());
         assertEquals(updateEmployee.getAddr(), response.getAddr());
         assertEquals(updateEmployee.getPosition(), response.getPosition());
         assertEquals(updateEmployee.getPhone(), response.getPhone());
-        assertEquals(updateEmployee.getRetirementDate(), response.getRetirementDate());
         assertEquals(updateEmployee.getEmpStatus(), response.getEmpStatus());
 
     }

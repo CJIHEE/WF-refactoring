@@ -43,12 +43,9 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public void updateEmployee(Integer deptNo, String addr, Position position,
-                               String phone, String retirementDate, EmpStatus empStatus){
+    public void updateEmployee(String addr, Position position,
+                               String phone, EmpStatus empStatus){
         //null 인경우 이전의 값 그대로 유지
-        if (deptNo != null) {
-            this.deptNo = deptNo;
-        }
         if (addr != null) {
             this.addr = addr;
         }
@@ -57,9 +54,6 @@ public class Employee {
         }
         if (phone != null) {
             this.phone = phone;
-        }
-        if (retirementDate != null) {
-            this.retirementDate = retirementDate;
         }
         if (empStatus != null) {
             this.empStatus = empStatus;
