@@ -22,3 +22,5 @@ logging.level:
     type: trace
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyewkrqwekkeWERkdfksazblYcfPQye08f7MGEWRweVA9XkHa
+server:
+  port: 8080

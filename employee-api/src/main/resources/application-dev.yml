@@ -19,4 +19,6 @@ logging.level:
   org.hibernate:
     SQL: debug
     type: trace
+server:
+  port: 8000
 

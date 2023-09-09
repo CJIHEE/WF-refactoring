@@ -4,6 +4,7 @@ import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.enums.UserRole;
+import com.workFlow.WFrefactoring.vo.EmployeeVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,20 +44,19 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public void updateEmployee(String addr, Position position,
-                               String phone, EmpStatus empStatus){
+    public void updateEmployee(EmployeeVO employeeVO){
         //null 인경우 이전의 값 그대로 유지
-        if (addr != null) {
-            this.addr = addr;
+        if (employeeVO.getAddr() != null) {
+            this.addr = employeeVO.getAddr();
         }
-        if (position != null) {
-            this.position = position;
+        if (employeeVO.getPosition() != null) {
+            this.position = employeeVO.getPosition();
         }
-        if (phone != null) {
-            this.phone = phone;
+        if (employeeVO.getPhone() != null) {
+            this.phone = employeeVO.getPhone();
         }
-        if (empStatus != null) {
-            this.empStatus = empStatus;
+        if (employeeVO.getEmpStatus() != null) {
+            this.empStatus = employeeVO.getEmpStatus();
         }
     }
 

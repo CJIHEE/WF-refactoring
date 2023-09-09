@@ -10,6 +10,7 @@ import com.workFlow.WFrefactoring.exception.CheckAutenticationException;
 import com.workFlow.WFrefactoring.model.Employee;
 import com.workFlow.WFrefactoring.repository.EmployeeRepository;
 import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
+import com.workFlow.WFrefactoring.vo.EmployeeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -44,7 +45,7 @@ public class EmployeeService {
         //DB에 저장(save),command로받은 데이터 entity에 데이터 주입(DTO->entity)
         Employee employee = employeeRepository.save(request.toEmployee(deptDto.getDeptNo(),passWord));
         //entity 값 VO에 주입
-        return EmployeeResponse.toVO(employee);
+        return EmployeeResponse .toVO(employee);
     }
 
     //전체 회원 조회
@@ -76,8 +77,10 @@ public class EmployeeService {
             throw new CheckAutenticationException("user not match");
         }
 
-        employee.updateEmployee(request.getAddr(), request.getPosition(),
+       EmployeeVO employeeVO = EmployeeVO.toEmployeeVO(request.getAddr(), request.getPosition(),
                 request.getPhone(), request.getEmpStatus());
+
+        employee.updateEmployee(employeeVO);
 
         return EmployeeResponse.toVO(employee);
 

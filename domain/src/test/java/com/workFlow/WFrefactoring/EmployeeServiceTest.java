@@ -148,39 +148,6 @@ public class EmployeeServiceTest {
         Assertions.assertThrows(CheckEmailException.class, ()->employeeService.createEmployee(request2));
     }
 
-//    @Test
-//    public void 본인확인(){
-//
-//        //given
-//        Position position = Position.EMPLOYEE;
-//        Gender gender = Gender.FEMALE;
-//        EmpStatus empStatus = EmpStatus.INCUMBENT;
-//        UserRole userRole = UserRole.USER;
-//        Employee employee = Employee.builder()
-//                .deptNo(100)
-//                .position(position)
-//                .name("TEST")
-//                .mail("test01@naver.com")
-//                .pw("Qwer1234$")
-//                .hireDate("2022-05-13")
-//                .gender(gender)
-//                .phone("01012341234")
-//                .addr("seoul")
-//                .empStatus(empStatus)
-//                .role(userRole).build();
-//
-//        //when
-//        EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
-//                .deptNo(100)
-//                .position(Position.EMPLOYEE)
-//                .phone("01012341234")
-//                .addr("change")
-//                .empStatus(empStatus).build();
-//
-//        EmployeeDetails employeeDetails = new EmployeeDetails(employee);
-//        employeeDetails.set
-//    }
-
     @Test
     public void 회원정보변경(){
 
@@ -224,7 +191,5 @@ public class EmployeeServiceTest {
         assertEquals(updateEmployee.getEmpStatus(), response.getEmpStatus());
 
     }
-
-
 
 }
