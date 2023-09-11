@@ -2,7 +2,7 @@ package com.workFlow.WFrefactoring.employee.service;
 
 import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.dept.service.DeptService;
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.exception.CheckEmailException;
 import com.workFlow.WFrefactoring.exception.UserNotFoundException;
@@ -33,7 +33,7 @@ public class EmployeeService {
 
     //회원가입
     @Transactional
-    public EmployeeResponse createEmployee(@Valid EmployeeRequest.CreateEmployee request) {
+    public EmployeeResponse createEmployee(@Valid EmployeeServiceDto.CreateEmployee request) {
         //dept 여부
         DeptDto deptDto = deptService.findBydeptNo(request.getDeptNo());
         //ID존재 유무, 존재 유무라서 exists 사용(boolean 타입)
@@ -69,7 +69,7 @@ public class EmployeeService {
 
     //회원 정보 업데이트
     @Transactional
-    public EmployeeResponse updateEmployee(Long empNo, EmployeeRequest.UpdateEmployee request, EmployeeDetails employeeDetails) {
+    public EmployeeResponse updateEmployee(Long empNo, EmployeeServiceDto.UpdateEmployee request, EmployeeDetails employeeDetails) {
 
         Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UsernameNotFoundException("user not found"));
         //로그인한 본인의 정보만 변경 가능

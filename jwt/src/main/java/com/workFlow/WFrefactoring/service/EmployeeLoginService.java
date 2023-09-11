@@ -1,6 +1,6 @@
 package com.workFlow.WFrefactoring.service;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.security.config.JwtTokenProvider;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import com.workFlow.WFrefactoring.security.service.EmployeeDetailsService;
@@ -10,9 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +28,7 @@ public class EmployeeLoginService {
     private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional(readOnly=true)
-    public TokenDto login(EmployeeRequest.LoginEmployee request){
+    public TokenDto login(EmployeeServiceDto.LoginEmployee request){
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(request.getMail(), request.getPw());

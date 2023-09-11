@@ -1,12 +1,11 @@
-package com.workFlow.WFrefactoring.employee.dto;
+package com.workFlow.WFrefactoring.dto;
 
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.enums.UserRole;
-import com.workFlow.WFrefactoring.model.Employee;
 import lombok.*;
-
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -45,22 +44,23 @@ public class EmployeeRequest {
         @NotNull
         private UserRole role;
 
-        //입력받은 내부 클래스의 필드 값을 entity에 주입(DTO->entity)
-        public Employee toEmployee(Integer dept, String passWord){
-            return Employee.builder()
-                    .deptNo(dept)
-                    .position(position)
-                    .name(name)
-                    .mail(mail)
-                    .pw(passWord)
-                    .hireDate(hireDate)
-                    .gender(gender)
-                    .phone(phone)
-                    .addr(addr)
-                    .empStatus(empStatus)
-                    .role(role)
-                    .build();
+        //api 모듈 dto-> domain 모듈 dto로 변환
+        public EmployeeServiceDto.CreateEmployee convertToServiceDTO(){
+                return EmployeeServiceDto.CreateEmployee.builder()
+                        .deptNo(this.deptNo)
+                        .position(this.position)
+                        .name(this.name)
+                        .mail(this.mail)
+                        .pw(this.pw)
+                        .hireDate(this.hireDate)
+                        .gender(this.gender)
+                        .phone(this.phone)
+                        .addr(this.addr)
+                        .empStatus(this.empStatus)
+                        .role(this.role)
+                        .build();
         }
+
     }
     @Getter
     @Builder
@@ -69,14 +69,15 @@ public class EmployeeRequest {
     public static class LoginEmployee {
         private String mail;
         private String pw;
+
+        public EmployeeServiceDto.LoginEmployee convertToServiceDTO(){
+            return EmployeeServiceDto.LoginEmployee.builder()
+                    .mail(this.mail)
+                    .pw(this.pw)
+                    .build();
+        }
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class LogoutEmployee{
-        private String mail;
-        private String pw;
-    }
 
     @Getter
     @Builder
@@ -88,6 +89,13 @@ public class EmployeeRequest {
         private String phone;
         private EmpStatus empStatus;
 
+        public EmployeeServiceDto.UpdateEmployee convertToServiceDto(){
+            return EmployeeServiceDto.UpdateEmployee.builder()
+                    .addr(this.addr)
+                    .position(this.position)
+                    .phone(this.phone)
+                    .build();
+        }
 
     }
 

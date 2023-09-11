@@ -1,6 +1,6 @@
 package com.workFlow.WFrefactoring;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
@@ -62,7 +62,7 @@ public class EmployeeServiceTest {
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
         UserRole userRole = UserRole.USER;
-        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
+        EmployeeServiceDto.CreateEmployee request = EmployeeServiceDto.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -91,7 +91,7 @@ public class EmployeeServiceTest {
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
         UserRole userRole = UserRole.USER;
-        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
+        EmployeeServiceDto.CreateEmployee request = EmployeeServiceDto.CreateEmployee.builder()
                 .deptNo(1000)
                 .position(position)
                 .name("TEST")
@@ -117,7 +117,7 @@ public class EmployeeServiceTest {
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
         UserRole userRole = UserRole.USER;
-        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
+        EmployeeServiceDto.CreateEmployee request = EmployeeServiceDto.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -132,7 +132,7 @@ public class EmployeeServiceTest {
         employeeService.createEmployee(request);
 
         //when
-        EmployeeRequest.CreateEmployee request2 = EmployeeRequest.CreateEmployee.builder()
+        EmployeeServiceDto.CreateEmployee request2 = EmployeeServiceDto.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -156,7 +156,7 @@ public class EmployeeServiceTest {
         Gender gender = Gender.FEMALE;
         EmpStatus empStatus = EmpStatus.INCUMBENT;
         UserRole userRole = UserRole.USER;
-        EmployeeRequest.CreateEmployee request = EmployeeRequest.CreateEmployee.builder()
+        EmployeeServiceDto.CreateEmployee request = EmployeeServiceDto.CreateEmployee.builder()
                 .deptNo(100)
                 .position(position)
                 .name("TEST")
@@ -171,7 +171,7 @@ public class EmployeeServiceTest {
         employeeService.createEmployee(request);
 
         //when
-        EmployeeRequest.UpdateEmployee updateEmployee =EmployeeRequest.UpdateEmployee.builder()
+        EmployeeServiceDto.UpdateEmployee updateEmployee = EmployeeServiceDto.UpdateEmployee.builder()
                 .position(Position.DIRECTOR)
                 .phone("01012341234")
                 .addr("change")

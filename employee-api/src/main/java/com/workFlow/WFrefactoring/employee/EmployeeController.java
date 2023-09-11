@@ -1,6 +1,7 @@
 package com.workFlow.WFrefactoring.employee;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;
@@ -28,14 +29,13 @@ public class EmployeeController{
     //회원가입
     @PostMapping
     public EmployeeResponse createEmployee(@RequestBody @Valid EmployeeRequest.CreateEmployee request){
-        log.info("CreateEmployee={}", request);
-        return employeeService.createEmployee(request);
+        return employeeService.createEmployee(request.convertToServiceDTO());
     }
 
     //로그인
     @PostMapping("/login")
     public TokenDto login(@RequestBody EmployeeRequest.LoginEmployee request){
-        TokenDto tokenDto = employeeLoginService.login(request);
+        TokenDto tokenDto = employeeLoginService.login(request.convertToServiceDTO());
         return tokenDto;
     }
 
@@ -63,7 +63,7 @@ public class EmployeeController{
     private EmployeeResponse updateEmployee(@PathVariable("empNo") Long empNo,
                                             @RequestBody @Valid EmployeeRequest.UpdateEmployee request,
                                             @AuthenticationPrincipal EmployeeDetails employeeDetails){
-        return employeeService.updateEmployee(empNo,request,employeeDetails);
+        return employeeService.updateEmployee(empNo,request.convertToServiceDto(),employeeDetails);
     }
 
 }
