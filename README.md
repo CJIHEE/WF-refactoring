@@ -23,12 +23,16 @@ hotfix : master 브랜치로 배포 후 수정 브랜치
 
 
 # 멀티 모듈 설계
-<img width="398" alt="multi-module 수정" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/84b70ce1-f87c-4d01-9b5e-12d4ca8d2a39">
+
+<img width="600" alt="multi-module 수정" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/5c483222-8ff8-49c1-b2d1-ccc69b1a1f33">
 
 ```sh
-api-module : Controller, Exception
+api-module : Controller, Exception , DTO(Request)
 domain-module :Service, DTO(Request, Response) Exception
 data- module : Entity, Repository
 common-moudule : Enums
+jwt-module : Service,DTO,Config,Security,Exception
+Redis-module : config
 ```
+
 설계이야기 https://gogowlgml.tistory.com/88
