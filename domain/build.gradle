@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':data')
+    implementation project(':common')
+    implementation project(':redis')
+
+}
+bootJar { enabled = false }
+
+jar { enabled = true }

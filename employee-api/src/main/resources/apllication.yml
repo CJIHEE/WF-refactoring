@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    default: local
+  output:
+    ansi:
+      enabled: ALWAYS
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true

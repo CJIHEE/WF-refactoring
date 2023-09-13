@@ -1,0 +1,42 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
+plugins{
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    //runtimeOnly 'com.h2database:h2' // 테스트 코드 작성시 사용할 DB(H2)
+
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+bootJar { enabled = false}
+
+jar { enabled = true }
