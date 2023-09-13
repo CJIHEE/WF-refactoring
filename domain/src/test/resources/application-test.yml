@@ -12,7 +12,15 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  data:
+    redis:
+      host: localhost
+      port: 1
 logging.level:
   org.hibernate:
     SQL: debug
     type: trace
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyewkrqwekkeWERkdfksazblYcfPQye08f7MGEWRweVA9XkHa
+server:
+  port: 8080

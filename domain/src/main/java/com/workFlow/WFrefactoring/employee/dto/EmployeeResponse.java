@@ -17,7 +17,7 @@ public class EmployeeResponse {
     private String hireDate;
     private Gender gender;
     private String retirementDate;
-    private String  phone;
+    private String phone;
     private String addr;
     private EmpStatus empStatus;
 
@@ -37,7 +37,6 @@ public class EmployeeResponse {
         employeeVO.empStatus = employee.getEmpStatus();
         return employeeVO;
     }
-
 
 
 

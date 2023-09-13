@@ -1,8 +1,9 @@
-package com.workFlow.WFrefactoring.employee.service;
+package com.workFlow.WFrefactoring.service;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.security.config.JwtTokenProvider;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
+import com.workFlow.WFrefactoring.security.service.EmployeeDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,17 +23,19 @@ public class EmployeeLoginService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final EmployeeDetailsService employeeDetailsService;
 
     private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional(readOnly=true)
-    public TokenDto login(EmployeeRequest.LoginEmployee request){
+    public TokenDto login(EmployeeServiceDto.LoginEmployee request){
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(request.getMail(), request.getPw());
         // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
         // authenticate 매서드가 실행될 때 EmployeeDetailService에서 만든 loadUserByUsername 메서드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
         return tokenDto;
