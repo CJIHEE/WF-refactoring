@@ -1,7 +1,6 @@
 package com.workFlow.WFrefactoring.security.config;
 
 import com.workFlow.WFrefactoring.exception.BlackListToken;
-import com.workFlow.WFrefactoring.exception.CheckTokenException;
 import com.workFlow.WFrefactoring.security.dto.TokenDto;
 import com.workFlow.WFrefactoring.security.service.EmployeeDetailsService;
 import io.jsonwebtoken.*;
@@ -12,16 +11,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.BadLocationException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
