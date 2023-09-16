@@ -14,7 +14,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, Emplo
 
      //아이디 찾기
      Employee findBymail(String mail);
-
      //전체 회원조회
      Page<Employee> findAll(Pageable pageable);
 

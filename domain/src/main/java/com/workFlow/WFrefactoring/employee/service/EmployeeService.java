@@ -45,7 +45,7 @@ public class EmployeeService {
         //DB에 저장(save),command로받은 데이터 entity에 데이터 주입(DTO->entity)
         Employee employee = employeeRepository.save(request.toEmployee(deptDto.getDeptNo(),passWord));
         //entity 값 VO에 주입
-        return EmployeeResponse .toVO(employee);
+        return EmployeeResponse.toVO(employee);
     }
 
     //전체 회원 조회

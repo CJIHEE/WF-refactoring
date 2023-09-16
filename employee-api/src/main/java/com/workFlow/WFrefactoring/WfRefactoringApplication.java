@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class WfRefactoringApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WfRefactoringApplication.class, args);
+ 		SpringApplication.run(WfRefactoringApplication.class, args);
 	}
 
 }
