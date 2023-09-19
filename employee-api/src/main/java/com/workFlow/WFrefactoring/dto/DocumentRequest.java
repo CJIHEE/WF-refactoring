@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DocumentRequest {
     @Getter
@@ -38,9 +39,9 @@ public class DocumentRequest {
                     .build();
         }
 
-        public AttachmentServiceDto.uploadAttachment convertToAttachmentDto(MultipartFile multipartFile){
+        public AttachmentServiceDto.uploadAttachment convertToAttachmentDto(List<MultipartFile> multipartFileList){
             return AttachmentServiceDto.uploadAttachment.builder()
-                    .multipartFile(multipartFile)
+                    .multipartFileList(multipartFileList)
                     .build();
         }
 

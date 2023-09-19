@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("documents")
@@ -22,12 +23,7 @@ public class DocumentController {
     //문서 작성
     @PostMapping
     public DocumentResponse writeDocument(@RequestPart(value="request") @Valid DocumentRequest.WriteDocument request,
-                                          @RequestPart(value="file", required = false) MultipartFile multipartFile) throws IOException {
-//        if(multipartFile!=null){
-//            log.info("dto변환");
-//            request.convertToAttachmentDto(multipartFile);
-//            log.info("multipartFile : " + new AttachmentServiceDto.uploadAttachment.)
-//        }
+                                          @RequestPart(value="files", required = false) List<MultipartFile> multipartFile) throws IOException {
         return documentService.wrtieDocument(request.convertToDocumentDto(),request.convertToAttachmentDto(multipartFile));
     }
 

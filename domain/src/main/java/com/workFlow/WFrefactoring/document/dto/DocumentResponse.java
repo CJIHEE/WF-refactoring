@@ -24,7 +24,7 @@ public class DocumentResponse {
     private String expiredAt;
     private List<String> attachmentList = new ArrayList<>();
 
-    public static DocumentResponse toVO(Document document, Attachment attachment){
+    public static DocumentResponse toVO(Document document){
         DocumentResponse documentVO= new DocumentResponse();
 
         documentVO.docNo = document.getDocNo();
@@ -36,7 +36,7 @@ public class DocumentResponse {
         documentVO.attachmentList= document.getAttachmentList().stream()
                 .map(i -> i.getFileName())
                 .collect(Collectors.toList());
-        
+
         return documentVO;
     }
 

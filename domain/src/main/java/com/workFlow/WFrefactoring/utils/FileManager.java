@@ -8,6 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -17,18 +20,25 @@ public class FileManager {
     String fileDir;
 
     //return AttachedDTO로 바꿀거임
-    public AttachmentServiceDto.uploadAttachment uploadFile(MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
+    public AttachmentServiceDto.uploadAttachment uploadFile(List<MultipartFile> multipartFileList) throws IOException {
+        List<String> originalFilenameList = new ArrayList<>();
+        List<String> storeFilenamList = new ArrayList<>();
+        List<Long> fileSizeList = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFileList) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            String storeFilename = CreateFileName(originalFilename);
+            multipartFile.transferTo(new File(CreatePath(storeFilename)));
 
-        String storeFilename = CreateFileName(originalFilename);
+            originalFilenameList.add(originalFilename);
+            storeFilenamList.add(CreateFileName(storeFilename));
+            fileSizeList.add(multipartFile.getSize());
+        }
 
-        multipartFile.transferTo(new File(CreatePath(storeFilename)));
         return AttachmentServiceDto.uploadAttachment.builder()
-                .orgFileName(originalFilename)
-                .fileName(storeFilename)
-                .fileSize(multipartFile.getSize())
+                .orgFileNameList(originalFilenameList)
+                .fileNameList(storeFilenamList)
+                .fileSizeList(fileSizeList)
                 .build();
-
     }
 
     private String CreateFileName(String originalFilename){

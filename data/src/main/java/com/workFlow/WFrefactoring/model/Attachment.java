@@ -16,6 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Attachment implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long attachmentNo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="doc_no")
     private Document document;

@@ -36,13 +36,17 @@ public class DocumentService {
         Employee employee = employeeRepository.findById(documentDto.getRequester()).orElseThrow(() -> new UserNotFoundException("user not found"));
         Document document = documentRepository.save(documentDto.toDocument(employee));
 
-        Attachment attachment = null;
-        if (attachmentDto.getMultipartFile() != null) {
-            //첨부파일 있을때
-            attachment = fileManager.uploadFile(attachmentDto.getMultipartFile()).toAttachment(document);
-            document.getAttachmentList().add(attachment);
+        List<MultipartFile> multipartFileList = attachmentDto.getMultipartFileList();
+
+        if (multipartFileList != null) {
+            //첨부파일 있을 때
+            attachmentDto = fileManager.uploadFile(multipartFileList);
+            for(int i=0; i < multipartFileList.size(); i++){
+                Attachment attachment = attachmentDto.toAttachment(document, i);
+                document.getAttachmentList().add(attachment);
+            }
         }
 
-        return DocumentResponse.toVO(document,attachment);
+        return DocumentResponse.toVO(document);
     }
 }

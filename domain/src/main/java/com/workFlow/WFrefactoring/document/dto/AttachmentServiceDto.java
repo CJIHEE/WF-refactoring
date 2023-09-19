@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttachmentServiceDto {
 
@@ -20,19 +22,19 @@ public class AttachmentServiceDto {
         @NotNull
         private Long docNo;
         @NotNull
-        private String fileName;
+        private List<String> fileNameList = new ArrayList<>();
         @NotNull
-        private String orgFileName;
+        private List<String> orgFileNameList = new ArrayList<>();
         @NotNull
-        private Long fileSize;
-        private MultipartFile multipartFile;
+        private List<Long> fileSizeList = new ArrayList<>();
+        private List<MultipartFile> multipartFileList = new ArrayList<>();
 
         //DTO -> Entity
-        public Attachment toAttachment(Document document){
+        public Attachment toAttachment(Document document, int idx){
             return Attachment.builder()
-                    .orgFileName(this.orgFileName)
-                    .fileName(this.fileName)
-                    .fileSize(this.fileSize)
+                    .orgFileName(this.orgFileNameList.get(idx))
+                    .fileName(this.orgFileNameList.get(idx))
+                    .fileSize(this.fileSizeList.get(idx))
                     .document(document)
                     .build();
         }
