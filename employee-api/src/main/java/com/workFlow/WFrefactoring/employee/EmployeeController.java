@@ -1,7 +1,6 @@
 package com.workFlow.WFrefactoring.employee;
 
-import com.workFlow.WFrefactoring.dto.EmployeeRequest;
-import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
+import com.workFlow.WFrefactoring.employee.dto.EmployeeRequest;
 import com.workFlow.WFrefactoring.employee.dto.EmployeeResponse;
 
 import com.workFlow.WFrefactoring.employee.service.EmployeeService;

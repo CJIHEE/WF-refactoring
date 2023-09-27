@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeRepositoryCustom {
@@ -17,6 +19,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, Emplo
      //전체 회원조회
      Page<Employee> findAll(Pageable pageable);
 
-
-
+     List<Employee> findByEmpNoIn(List<Long> empNos);
 }

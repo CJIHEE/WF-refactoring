@@ -43,6 +43,9 @@ public class DocumentServiceDto {
                     .build();
         }
 
+        // Factory Method
+
+
 
     }
 }

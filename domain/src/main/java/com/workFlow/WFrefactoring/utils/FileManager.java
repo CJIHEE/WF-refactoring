@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +19,7 @@ public class FileManager {
     String fileDir;
 
     //return AttachedDTO로 바꿀거임
-    public AttachmentServiceDto.uploadAttachment uploadFile(List<MultipartFile> multipartFileList) throws IOException {
+    public AttachmentServiceDto.UploadAttachment uploadFile(List<MultipartFile> multipartFileList) throws IOException {
         List<String> originalFilenameList = new ArrayList<>();
         List<String> storeFilenamList = new ArrayList<>();
         List<Long> fileSizeList = new ArrayList<>();
@@ -34,7 +33,7 @@ public class FileManager {
             fileSizeList.add(multipartFile.getSize());
         }
 
-        return AttachmentServiceDto.uploadAttachment.builder()
+        return AttachmentServiceDto.UploadAttachment.builder()
                 .orgFileNameList(originalFilenameList)
                 .fileNameList(storeFilenamList)
                 .fileSizeList(fileSizeList)

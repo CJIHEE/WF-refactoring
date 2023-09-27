@@ -1,4 +1,4 @@
-package com.workFlow.WFrefactoring.dto;
+package com.workFlow.WFrefactoring.employee.dto;
 
 import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
@@ -98,5 +98,6 @@ public class EmployeeRequest {
         }
 
     }
+
 
 }

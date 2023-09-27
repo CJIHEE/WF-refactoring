@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,10 @@ public class AttachmentServiceDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class uploadAttachment{
-        @NotNull
+    public static class UploadAttachment {
         private Long docNo;
-        @NotNull
         private List<String> fileNameList = new ArrayList<>();
-        @NotNull
         private List<String> orgFileNameList = new ArrayList<>();
-        @NotNull
         private List<Long> fileSizeList = new ArrayList<>();
         private List<MultipartFile> multipartFileList = new ArrayList<>();
 
@@ -38,6 +35,10 @@ public class AttachmentServiceDto {
                     .document(document)
                     .build();
         }
+
+        // Factory Method
+
+        // 정적 팩토리 메서드 패턴
 
 
     }

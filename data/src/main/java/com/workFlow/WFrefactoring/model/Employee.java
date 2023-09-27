@@ -27,6 +27,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="emp_no")
     private Long empNo;
+
     private Integer deptNo;
     @Enumerated(EnumType.STRING)
     private Position position;
