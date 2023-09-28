@@ -1,6 +1,5 @@
 package com.workFlow.WFrefactoring.document.dto;
 
-import com.workFlow.WFrefactoring.model.Approval;
 import com.workFlow.WFrefactoring.model.Document;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Slf4j
@@ -43,15 +41,15 @@ public class DocumentResponse {
         return documentVO;
     }
 
-    public static class getAllDocumentResponse{
+    public static class getDocumentListResponse{
         private long docNo;
 
         private long requester;
 
         private String subject;
 
-        public DocumentResponse.getAllDocumentResponse toVO(Document document){
-            DocumentResponse.getAllDocumentResponse documentVO = new DocumentResponse.getAllDocumentResponse();
+        public DocumentResponse.getDocumentListResponse from(Document document){
+            DocumentResponse.getDocumentListResponse documentVO = new DocumentResponse.getDocumentListResponse();
 
             documentVO.docNo = document.getDocNo();
             documentVO.requester = document.getRequester().getEmpNo();
@@ -61,6 +59,7 @@ public class DocumentResponse {
         }
 
     }
+    @Getter
     public static class getDocumentResponse{
         private long docNo;
 
@@ -73,10 +72,12 @@ public class DocumentResponse {
         private String expiredAt;
         private LocalDateTime createdAt;
         private List<String> attachmentList = new ArrayList<>();
-        private Approval approval;
+        private List<ApprovalServiceDto.getApproval> approvalList;
+
+//        private List<Approval> approvalList = new ArrayList<>();
         private LocalDateTime modifiedAt;
 
-        public DocumentResponse.getDocumentResponse toVO(Document document, List<String> attachmentList){
+        public DocumentResponse.getDocumentResponse from(Document document, List<String> attachmentList, List<ApprovalServiceDto.getApproval> ApprovalList){
             DocumentResponse.getDocumentResponse documentVO= new DocumentResponse.getDocumentResponse();
 
             documentVO.docNo = document.getDocNo();
@@ -86,10 +87,12 @@ public class DocumentResponse {
             documentVO.expiredAt = document.getExpiredAt();
             documentVO.createdAt = document.getCreateAt();
             documentVO.attachmentList= attachmentList;
+            documentVO.approvalList = ApprovalList;
             documentVO.modifiedAt = document.getModifiedAt();
 
             return documentVO;
         }
+
     }
 
 

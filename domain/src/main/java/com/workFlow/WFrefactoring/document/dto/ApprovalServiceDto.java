@@ -8,10 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 public class ApprovalServiceDto {
@@ -19,30 +17,55 @@ public class ApprovalServiceDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-
-    public static class CreateApproval{
+    public static class CreateApproval {
         private Long appNo;
 
         private Employee approver;
 
         private Document document;
-        private int levelNo;
+        private Integer levelNo;
         private ApprovalProgress approval;
 
         private LocalDateTime createdAt;
 
         private LocalDateTime modifiedAt;
 
-        public Approval toApproval(Employee employee, Document document){
+        public Approval toApproval(Employee employee, Document document) {
             return Approval.builder()
                     .approver(employee)
                     .document(document)
                     .build();
         }
-
     }
 
+        @Getter
+        @Slf4j
+        public static class getApproval{
+            private Long appNo;
 
+            //private EmployeeResponseDto approver;
+            private Long approver;
+
+            private Integer levelNo;
+            private ApprovalProgress approval;
+
+            private LocalDateTime createdAt;
+
+            private LocalDateTime modifiedAt;
+
+            public ApprovalServiceDto.getApproval of(Approval approval) {
+                ApprovalServiceDto.getApproval approvalDto = new ApprovalServiceDto.getApproval();
+                approvalDto.appNo = approval.getAppNo();
+                approvalDto.approver = approval.getApprover().getEmpNo();
+                approvalDto.levelNo = approval.getLevelNo();
+                approvalDto.approval = approval.getApproval();
+                approvalDto.createdAt = approval.getCreatedAt();
+                approvalDto.modifiedAt = approval.getModifiedAt();
+                return  approvalDto;
+
+            }
+
+    }
 
 
 }

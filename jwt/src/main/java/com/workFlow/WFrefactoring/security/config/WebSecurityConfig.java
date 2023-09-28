@@ -34,7 +34,8 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/employees","/employees/login","/documents").permitAll()
+                .antMatchers("/documents/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/employees","/employees/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()//예외처리

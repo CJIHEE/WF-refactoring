@@ -1,9 +1,11 @@
 package com.workFlow.WFrefactoring.document.service;
 
+import com.workFlow.WFrefactoring.document.dto.ApprovalServiceDto;
 import com.workFlow.WFrefactoring.document.dto.AttachmentServiceDto;
 import com.workFlow.WFrefactoring.document.dto.DocumentResponse;
 import com.workFlow.WFrefactoring.document.dto.DocumentServiceDto;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
+import com.workFlow.WFrefactoring.exception.DocumentNotFoundException;
 import com.workFlow.WFrefactoring.exception.UserNotFoundException;
 import com.workFlow.WFrefactoring.model.*;
 import com.workFlow.WFrefactoring.repository.ApprovalRepository;
@@ -124,6 +126,17 @@ public class DocumentService {
         return map;
     }
 
+
+    //특정 문서 조회
+    public DocumentResponse.getDocumentResponse getDocument(Long docNo) {
+        DocumentResponse.getDocumentResponse response = new DocumentResponse.getDocumentResponse();
+        Document document = documentRepository.findById(docNo).orElseThrow(()-> new DocumentNotFoundException("document not found"));
+        List<Approval> approvalList = approvalRepository.findByDocumentWithApprover(document);
+
+        return response.from(document, extractAttList(document),approvalConvertDto(approvalList));
+    }
+
+
     //response AttachmentList 추출
     private List<String> extractAttList(Document document){
         return document.getAttachmentList().stream()
@@ -132,12 +145,8 @@ public class DocumentService {
 
     }
 
-
-    //문서 조회
-//    public DocumentResponse.getDocumentResponse getDocument(Long docNo) {
-//        DocumentResponse.getDocumentResponse response = new DocumentResponse.getDocumentResponse();
-//
-//
-//        return response.toVO();
-//    }
+    private List<ApprovalServiceDto.getApproval> approvalConvertDto(List<Approval> approvalList) {
+        ApprovalServiceDto.getApproval approvalDto = new ApprovalServiceDto.getApproval();
+        return  approvalList.stream().map(approvalDto::of).collect(Collectors.toList());
+    }
 }

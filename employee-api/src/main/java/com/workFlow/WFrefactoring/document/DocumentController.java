@@ -31,10 +31,10 @@ public class DocumentController {
     }
 
     //특정 문서 조회
-//    @GetMapping("/{docNo}")
-//    public DocumentResponse.getDocumentResponse getDocumentResponse(@PathVariable("docNo") Long docNo){
-//        return documentService.getDocument(docNo);
-//    }
+    @GetMapping("/{docNo}")
+    public DocumentResponse.getDocumentResponse getDocumentResponse(@PathVariable("docNo") Long docNo){
+        return documentService.getDocument(docNo);
+    }
 
 
 
