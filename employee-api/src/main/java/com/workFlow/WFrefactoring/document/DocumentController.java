@@ -32,8 +32,14 @@ public class DocumentController {
 
     //특정 문서 조회
     @GetMapping("/{docNo}")
-    public DocumentResponse.getDocumentResponse getDocumentResponse(@PathVariable("docNo") Long docNo){
+    public DocumentResponse.getDocumentResponse getDocument(@PathVariable("docNo") Long docNo){
         return documentService.getDocument(docNo);
+    }
+
+    //전체 문서 조회
+    @GetMapping
+    public List<DocumentResponse.getDocumentListResponse> getAllDocument(Long lastDocNo,Integer pageSize ){
+        return documentService.getAllDocument(lastDocNo, pageSize);
     }
 
 

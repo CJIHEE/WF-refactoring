@@ -149,4 +149,17 @@ public class DocumentService {
         ApprovalServiceDto.getApproval approvalDto = new ApprovalServiceDto.getApproval();
         return  approvalList.stream().map(approvalDto::of).collect(Collectors.toList());
     }
+
+
+    //문서 전체 조회
+    public List<DocumentResponse.getDocumentListResponse> getAllDocument(Long lastDocNo, Integer pageSize) {
+        if(pageSize == null) pageSize = 5;
+
+        List<Document> documentList = documentRepository.findDocumentAll(lastDocNo, pageSize);
+
+        return documentList.stream()
+                .map(DocumentResponse.getDocumentListResponse::from)
+                .collect(Collectors.toList());
+    }
+
 }

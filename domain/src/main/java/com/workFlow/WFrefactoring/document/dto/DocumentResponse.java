@@ -41,6 +41,7 @@ public class DocumentResponse {
         return documentVO;
     }
 
+    @Getter
     public static class getDocumentListResponse{
         private long docNo;
 
@@ -48,7 +49,7 @@ public class DocumentResponse {
 
         private String subject;
 
-        public DocumentResponse.getDocumentListResponse from(Document document){
+        public static DocumentResponse.getDocumentListResponse from(Document document){
             DocumentResponse.getDocumentListResponse documentVO = new DocumentResponse.getDocumentListResponse();
 
             documentVO.docNo = document.getDocNo();
@@ -73,8 +74,6 @@ public class DocumentResponse {
         private LocalDateTime createdAt;
         private List<String> attachmentList = new ArrayList<>();
         private List<ApprovalServiceDto.getApproval> approvalList;
-
-//        private List<Approval> approvalList = new ArrayList<>();
         private LocalDateTime modifiedAt;
 
         public DocumentResponse.getDocumentResponse from(Document document, List<String> attachmentList, List<ApprovalServiceDto.getApproval> ApprovalList){

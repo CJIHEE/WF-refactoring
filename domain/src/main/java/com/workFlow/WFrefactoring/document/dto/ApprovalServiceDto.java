@@ -42,10 +42,7 @@ public class ApprovalServiceDto {
         @Slf4j
         public static class getApproval{
             private Long appNo;
-
-            //private EmployeeResponseDto approver;
             private Long approver;
-
             private Integer levelNo;
             private ApprovalProgress approval;
 
