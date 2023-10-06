@@ -52,6 +52,7 @@ public class EmployeeService {
     @Transactional
     public List<EmployeeResponse> getAllEmployee(Long lastEmpNo, Integer pageSize) {
         if(pageSize == null) pageSize = 5;
+        if(lastEmpNo == null) lastEmpNo = 1L;
 
         List<Employee> empList = employeeRepository.findEmpAll(lastEmpNo, pageSize);
 

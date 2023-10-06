@@ -3,6 +3,9 @@ dependencies {
     implementation project(':common')
     implementation project(':redis')
 
+    api group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    api group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
 }
 bootJar { enabled = false }
 
