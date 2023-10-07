@@ -1,13 +1,11 @@
 package com.workFlow.WFrefactoring.employee.dto;
 
-import com.workFlow.WFrefactoring.employee.dto.EmployeeServiceDto;
 import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.enums.UserRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.*;
 
 import javax.validation.constraints.Email;

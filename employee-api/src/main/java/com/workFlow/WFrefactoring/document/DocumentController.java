@@ -37,15 +37,15 @@ public class DocumentController {
 
     //특정 문서 조회
     @GetMapping("/{docNo}")
-    @ApiImplicitParam(name = "docNo", value = "문서 번호",dataType = "Long", paramType = "path")
+    @ApiImplicitParam(name = "docNo", value = "문서 번호",dataType = "Long", example = "0",paramType = "path")
     public DocumentResponse.getDocumentResponse getDocument(@PathVariable("docNo") Long docNo){
         return documentService.getDocument(docNo);
     }
 
     //전체 문서 조회
     @GetMapping
-    @ApiImplicitParams({@ApiImplicitParam(name = "lastDocNo", value = "마지막 조회 문서 번호", dataType = "Long", paramType = "query")
-            , @ApiImplicitParam(name = "pageSize", value = "조회 문서 수", dataType = "Integer", paramType = "query", defaultValue = "3")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "lastDocNo", value = "마지막 조회 문서 번호", dataType = "Long", example = "0",paramType = "query")
+            , @ApiImplicitParam(name = "pageSize", value = "조회 문서 수", dataType = "Integer", paramType = "query", example = "3",defaultValue = "3")})
     public List<DocumentResponse.getDocumentListResponse> getAllDocument(@RequestParam(name = "lastDocNo") Long lastDocNo,@RequestParam(name = "pageSize", required = false)Integer pageSize ){
         return documentService.getAllDocument(lastDocNo, pageSize);
     }
