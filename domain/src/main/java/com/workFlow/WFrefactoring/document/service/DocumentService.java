@@ -1,5 +1,7 @@
 package com.workFlow.WFrefactoring.document.service;
 
+import com.workFlow.WFrefactoring.dept.dto.DeptDto;
+import com.workFlow.WFrefactoring.dept.service.DeptService;
 import com.workFlow.WFrefactoring.document.dto.ApprovalServiceDto;
 import com.workFlow.WFrefactoring.document.dto.AttachmentServiceDto;
 import com.workFlow.WFrefactoring.document.dto.DocumentResponse;
@@ -36,7 +38,7 @@ public class DocumentService {
 
     private final EmployeeRepository employeeRepository;
     private final DocumentRepository documentRepository;
-    private final DeptRepository deptRepository;
+    private final DeptService deptService;
     private final ApprovalRepository approvalRepository;
     private final DeptNativeRepository deptNativeRepository;
     private final FileManager fileManager;
@@ -60,8 +62,7 @@ public class DocumentService {
         }
 
         //결제라인 조회
-        List<Dept> approverList = createAppDeptList(deptRepository.findById(employee.getDeptNo())
-                .orElseThrow(()-> new DeptNotFoundException("dept not found")).getDeptNo());
+        List<DeptDto> approverList = deptService.createAppDeptList(employee.getDeptNo());
 
 //        nativeQuery 썼을 때
 //        List<Dept> approverList = deptNativeRepository.findApprovarList(deptRepository.findById(employee.getDeptNo())
@@ -92,20 +93,8 @@ public class DocumentService {
         return DocumentResponse.from(document,extractAttList(document));
     }
 
-    private List<Dept> createAppDeptList(Integer deptNo) {
-        List<Dept> deptList = deptRepository.findAllByOrderByDeptNoDesc();
-        List<Dept> appDeptList = new ArrayList();
-        Integer targetDeptNo = deptNo;
-        for(Dept dept : deptList){
-            if(targetDeptNo == dept.getDeptNo()){
-                appDeptList.add(dept);
-                targetDeptNo = dept.getUpperDeptNo();
-            }
-        }
-        return appDeptList;
-    }
 
-    private List<Long> extractLeadEmpNo(List<Dept> approverList) {
+    private List<Long> extractLeadEmpNo(List<DeptDto> approverList) {
         return approverList.stream()
                 .map(dept -> dept.getLeadEmpNo())
                 .collect(Collectors.toList());
