@@ -18,9 +18,22 @@ release : QA 브랜치
 hotfix : master 브랜치로 배포 후 수정 브랜치
 ```
 
-# RESTful API 
+# Swaager를 통한 RESTful API 
 📃 [API 명세서](https://github.com/CJIHEE/WF-refactoring/wiki/%F0%9F%93%83-API-%EB%AA%85%EC%84%B8%EC%84%9C)
 
+# 객체 참조로 인한 결합도 상승을 줄이기 위해 약한 결합 맺기
+
+- **객체 참조**
+    
+    - 연관 관계 설정 기준 : 함께 생성되고 함께 삭제되는 객체들<br>
+    ex) document - attachment (attachment 객체의 생애 주기가 document에 종속적, 양방향 관계)
+    
+- **id참조**
+    
+    - 기준 외 객체들은 객체 간 연관 관계 없이 id 참조로 약한 결합<br>
+    ex) employee - dept : id를 이용해 접근(dept는 약한 결합도 탐색인 repository를 통한 탐색)
+    
+    →이를 통해 패키지간 의존도 사이클이 없어졌다
 
 # 멀티 모듈 설계
 
