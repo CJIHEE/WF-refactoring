@@ -18,6 +18,9 @@ release : QA 브랜치
 hotfix : master 브랜치로 배포 후 수정 브랜치
 ```
 
+# Docker를 활용한 배포 환경 구성
+<img width="894" alt="image" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/0bfda94a-8c7f-41fc-8a87-8e7a748bd845">
+
 # Swaager를 통한 RESTful API 
 📃 [API 명세서](https://github.com/CJIHEE/WF-refactoring/wiki/%F0%9F%93%83-API-%EB%AA%85%EC%84%B8%EC%84%9C)
 
