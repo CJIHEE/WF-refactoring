@@ -11,9 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name="attachment",indexes = @Index(name="idx_document", columnList = "doc_no"))
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class Attachment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +23,11 @@ public class Attachment implements Serializable {
     private String orgFileName;
     private Long fileSize;
 
-
+    @Builder
+    public Attachment(Document document, String fileName, String orgFileName, Long fileSize) {
+        this.document = document;
+        this.fileName = fileName;
+        this.orgFileName = orgFileName;
+        this.fileSize = fileSize;
+    }
 }

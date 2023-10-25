@@ -15,7 +15,6 @@ import com.workFlow.WFrefactoring.utils.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -38,20 +37,29 @@ public class DocumentService {
     //문서 작성
     @Transactional
     public DocumentResponse writeDocument(DocumentServiceDto.WriteDocument documentDto, AttachmentServiceDto.UploadAttachment attachmentDto) throws IOException {
-
         Employee employee = employeeService.findEmployee(documentDto.getRequester());
         Document document = documentRepository.save(documentDto.toDocument(employee));
 
-        List<MultipartFile> multipartFileList = attachmentDto.getMultipartFileList();
+        // 파일 업로드(foreach)
+//        attachmentDto.getMultipartFileList().forEach(
+//                multipartFile -> {
+//                    String storeFileName = fileManager.uploadFile(multipartFile);
+//                    Attachment attachment = new Attachment(document, storeFileName, multipartFile.getOriginalFilename(), multipartFile.getSize());
+//                    document.getAttachmentList().add(attachment);
+//                }
+//        );
 
-        if (multipartFileList != null) {
-            //첨부파일 있을 때
-            attachmentDto = fileManager.uploadFile(multipartFileList);
-            for(int i=0; i < multipartFileList.size(); i++){
-                Attachment attachment = attachmentDto.toAttachment(document, i);
-                document.getAttachmentList().add(attachment);
-            }
-        }
+        // 파일 업로드(StreamAPI)
+        List<Attachment> attachments = attachmentDto.getMultipartFileList().stream().map(
+                multipartFile -> new Attachment(
+                        document,
+                        fileManager.uploadFile(multipartFile),
+                        multipartFile.getOriginalFilename(),
+                        multipartFile.getSize()
+                )
+        ).collect(Collectors.toList());
+
+        document.getAttachmentList().addAll(attachments);
 
         //결제라인 조회
         List<DeptDto> approverList = deptService.createAppDeptList(employee.getDeptNo());

@@ -8,16 +8,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import static com.workFlow.WFrefactoring.model.QApproval.*;
+
 @Repository
 @RequiredArgsConstructor
 public class ApprovalRepositoryImpl implements ApprovalRepositoryCustom{
     final JPAQueryFactory queryFactory;
     @Override
     public List<Approval> findByDocumentWithApprover(Document document) {
-        QApproval approval = QApproval.approval1;
         return queryFactory
-                .selectFrom(approval)
-                .where(approval.document.docNo.eq(document.getDocNo()))
+                .selectFrom(approval1)
+                .where(approval1.document.docNo.eq(document.getDocNo()))
                 .fetch();
     }
 }

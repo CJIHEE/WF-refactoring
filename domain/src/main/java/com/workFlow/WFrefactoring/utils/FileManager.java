@@ -1,50 +1,40 @@
 package com.workFlow.WFrefactoring.utils;
 
-import com.workFlow.WFrefactoring.document.dto.AttachmentServiceDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class FileManager {
-    @Value("${file.upload-dir}")
-    String fileDir;
+    private final Environment env;
+    private static final String FILE_DIR = "file.upload-dir";
 
-    //return AttachedDTO로 바꿀거임
-    public AttachmentServiceDto.UploadAttachment uploadFile(List<MultipartFile> multipartFileList) throws IOException {
-        List<String> originalFilenameList = new ArrayList<>();
-        List<String> storeFilenamList = new ArrayList<>();
-        List<Long> fileSizeList = new ArrayList<>();
-        for (MultipartFile multipartFile : multipartFileList) {
-            String originalFilename = multipartFile.getOriginalFilename();
-            String storeFilename = CreateFileName(originalFilename);
-            multipartFile.transferTo(new File(CreatePath(storeFilename)));
+    public String uploadFile(MultipartFile multipartFile) {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String storeFilename = createSaveFileName(originalFilename);
 
-            originalFilenameList.add(originalFilename);
-            storeFilenamList.add(CreateFileName(storeFilename));
-            fileSizeList.add(multipartFile.getSize());
+        try {
+            multipartFile.transferTo(new File(createPath(storeFilename)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        return AttachmentServiceDto.UploadAttachment.builder()
-                .orgFileNameList(originalFilenameList)
-                .fileNameList(storeFilenamList)
-                .fileSizeList(fileSizeList)
-                .build();
+        return storeFilename;
     }
 
-    private String CreateFileName(String originalFilename){
+    private String createSaveFileName(String originalFilename){
         UUID uuid = UUID.randomUUID();
         return uuid + "_" + originalFilename;
     }
-    private String CreatePath(String fileName){
-        return fileDir + fileName;
+    private String createPath(String fileName){
+        return env.getProperty(FILE_DIR) + fileName;
     }
 }
