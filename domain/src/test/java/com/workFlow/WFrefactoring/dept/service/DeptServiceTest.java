@@ -5,17 +5,17 @@ import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
 import com.workFlow.WFrefactoring.model.Dept;
 import com.workFlow.WFrefactoring.repository.DeptRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Transactional
+
 class DeptServiceTest extends ServiceLayerTestSupport {
     @Autowired
     private DeptRepository deptRepository;
@@ -25,6 +25,9 @@ class DeptServiceTest extends ServiceLayerTestSupport {
 
     @Autowired
     private EntityManager entityManager;
+
+    @AfterEach
+    public void tearDown(){deptRepository.deleteAllInBatch();}
 
 
     @DisplayName("부서번호를 받아서 해당 부서의 정보를 조회할 수 있다.")
@@ -40,9 +43,6 @@ class DeptServiceTest extends ServiceLayerTestSupport {
 
         Dept savedDept = deptRepository.save(dept);
         Integer deptNo = savedDept.getDeptNo();
-
-        entityManager.flush();
-        entityManager.clear();
 
         // when
         DeptDto result = deptService.findBydeptNo(deptNo);
