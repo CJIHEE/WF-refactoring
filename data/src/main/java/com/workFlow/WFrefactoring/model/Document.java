@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="document")
+@Table(name="document", indexes = @Index(name="idx_requester", columnList = "write_emp_no"))
 @Getter
 @Builder
 @AllArgsConstructor

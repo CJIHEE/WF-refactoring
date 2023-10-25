@@ -5,12 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -35,7 +37,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/documents/**").permitAll()
-                .antMatchers( "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**").permitAll()
+                .antMatchers( "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**", "swagger/**", "v2/api-docs").permitAll()
                 .antMatchers(HttpMethod.POST,"/employees","/employees/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -48,4 +50,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
 }

@@ -10,7 +10,9 @@ plugins{
 
 dependencies {
     implementation project(':common')
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    //implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    // mysql
+    runtimeOnly 'com.mysql:mysql-connector-j'
     //runtimeOnly 'com.h2database:h2' // 테스트 코드 작성시 사용할 DB(H2)
 
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"

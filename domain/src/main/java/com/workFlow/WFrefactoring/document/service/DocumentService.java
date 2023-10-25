@@ -1,20 +1,16 @@
 package com.workFlow.WFrefactoring.document.service;
 
+import com.workFlow.WFrefactoring.approval.service.ApprovalService;
 import com.workFlow.WFrefactoring.dept.dto.DeptDto;
 import com.workFlow.WFrefactoring.dept.service.DeptService;
 import com.workFlow.WFrefactoring.document.dto.ApprovalServiceDto;
 import com.workFlow.WFrefactoring.document.dto.AttachmentServiceDto;
 import com.workFlow.WFrefactoring.document.dto.DocumentResponse;
 import com.workFlow.WFrefactoring.document.dto.DocumentServiceDto;
-import com.workFlow.WFrefactoring.exception.DeptNotFoundException;
+import com.workFlow.WFrefactoring.employee.service.EmployeeService;
 import com.workFlow.WFrefactoring.exception.DocumentNotFoundException;
-import com.workFlow.WFrefactoring.exception.UserNotFoundException;
 import com.workFlow.WFrefactoring.model.*;
-import com.workFlow.WFrefactoring.repository.ApprovalRepository;
-import com.workFlow.WFrefactoring.repository.DeptRepository;
 import com.workFlow.WFrefactoring.repository.DocumentRepository;
-import com.workFlow.WFrefactoring.repository.EmployeeRepository;
-import com.workFlow.WFrefactoring.repository.RepositoryCustom.DeptNativeRepository;
 import com.workFlow.WFrefactoring.utils.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.workFlow.WFrefactoring.enums.ApprovalProgress.WAITING;
@@ -36,18 +29,17 @@ import static com.workFlow.WFrefactoring.enums.ApprovalProgress.WAITING;
 @Slf4j
 public class DocumentService {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final DocumentRepository documentRepository;
     private final DeptService deptService;
-    private final ApprovalRepository approvalRepository;
-    private final DeptNativeRepository deptNativeRepository;
+    private final ApprovalService approvalService;
     private final FileManager fileManager;
 
     //문서 작성
     @Transactional
     public DocumentResponse writeDocument(DocumentServiceDto.WriteDocument documentDto, AttachmentServiceDto.UploadAttachment attachmentDto) throws IOException {
 
-        Employee employee = employeeRepository.findById(documentDto.getRequester()).orElseThrow(() -> new UserNotFoundException("user not found"));
+        Employee employee = employeeService.findEmployee(documentDto.getRequester());
         Document document = documentRepository.save(documentDto.toDocument(employee));
 
         List<MultipartFile> multipartFileList = attachmentDto.getMultipartFileList();
@@ -75,7 +67,7 @@ public class DocumentService {
         Map<Long, Integer> levelMap = generateLevelMap(leadEmpNoList);
 
         //employee 조회 정렬(In절로 한번에 조회하기 위해서 leadEmpNoList 추출)
-        List<Employee> leadEmployees = employeeRepository.findByEmpNoIn(leadEmpNoList);
+        List<Employee> leadEmployees = employeeService.findEmployeeList(leadEmpNoList);
 
         List<Approval> approvals = new ArrayList<>();
         for (Employee emp : leadEmployees) {
@@ -88,8 +80,7 @@ public class DocumentService {
 
             approvals.add(approval);
         }
-
-        approvalRepository.saveAll(approvals);
+        approvalService.saveAll(approvals);
         return DocumentResponse.from(document,extractAttList(document));
     }
 
@@ -120,7 +111,7 @@ public class DocumentService {
     public DocumentResponse.getDocumentResponse getDocument(Long docNo) {
         DocumentResponse.getDocumentResponse response = new DocumentResponse.getDocumentResponse();
         Document document = documentRepository.findById(docNo).orElseThrow(()-> new DocumentNotFoundException("document not found"));
-        List<Approval> approvalList = approvalRepository.findByDocumentWithApprover(document);
+        List<Approval> approvalList = approvalService.findByDocumentWithApprover(document);
 
         return response.from(document, extractAttList(document),approvalConvertDto(approvalList));
     }
@@ -150,5 +141,6 @@ public class DocumentService {
                 .map(DocumentResponse.getDocumentListResponse::from)
                 .collect(Collectors.toList());
     }
+
 
 }

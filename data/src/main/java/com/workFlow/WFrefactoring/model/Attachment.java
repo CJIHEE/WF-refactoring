@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="attachment")
+@Table(name="attachment",indexes = @Index(name="idx_document", columnList = "doc_no"))
 @Getter
 @Builder
 @NoArgsConstructor

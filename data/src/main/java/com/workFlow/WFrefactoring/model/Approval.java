@@ -13,7 +13,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="approval")
+@Table(name="approval",indexes = {
+        @Index(name = "idx_approver", columnList = "approval_emp_no"),
+        @Index(name = "idx_document", columnList = "doc_no")
+})
 @Getter
 @Builder
 @AllArgsConstructor

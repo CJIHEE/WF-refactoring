@@ -13,10 +13,12 @@ import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import com.workFlow.WFrefactoring.vo.EmployeeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -64,7 +66,7 @@ public class EmployeeService {
     //특정 사원 조회
     @Transactional
     public EmployeeResponse getEmployee(Long empNo) {
-        Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UserNotFoundException("user not found"));
+        Employee employee = findEmployee(empNo);
         return EmployeeResponse.toVO(employee);
     }
 
@@ -86,4 +88,20 @@ public class EmployeeService {
         return EmployeeResponse.toVO(employee);
 
     }
+
+    //사원 조회
+    @Transactional
+    public Employee findEmployee(Long empNo) {
+        Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UserNotFoundException("user not found"));
+        return employee;
+    }
+    @Transactional
+    public List<Employee> findEmployeeList(List<Long> leadEmpNoList){
+        List<Employee> leadEmployees = employeeRepository.findByEmpNoIn(leadEmpNoList);
+        return leadEmployees;
+    }
+
+
+
+
 }
