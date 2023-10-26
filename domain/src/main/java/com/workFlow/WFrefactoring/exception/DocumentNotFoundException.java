@@ -2,10 +2,8 @@ package com.workFlow.WFrefactoring.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class UserNotFoundException extends ApiException {
-
-
-    public UserNotFoundException(String msg) {
+public class DocumentNotFoundException extends ApiException{
+    public DocumentNotFoundException(String msg) {
         super(msg);
     }
 

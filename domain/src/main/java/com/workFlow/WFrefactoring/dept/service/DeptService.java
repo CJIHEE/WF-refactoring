@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,25 @@ public class DeptService {
                 .leadEmpNo(dept.getLeadEmpNo())
                 .upperDeptNo(dept.getUpperDeptNo())
                 .build();
+    }
+
+    //부서 결제라인 만들기
+    @Transactional
+    public List<DeptDto> createAppDeptList(Integer deptNo) {
+        List<Dept> deptList = deptRepository.findAllByOrderByDeptNoDesc();
+        List<DeptDto> appDeptList = new ArrayList();
+        Integer targetDeptNo = deptNo;
+        for(Dept dept : deptList){
+            if(targetDeptNo == dept.getDeptNo()){
+                appDeptList.add(DeptDto.builder()
+                        .deptNo(dept.getDeptNo())
+                        .deptName(dept.getDeptName())
+                        .leadEmpNo(dept.getLeadEmpNo())
+                        .upperDeptNo(dept.getUpperDeptNo())
+                        .build());
+                targetDeptNo = dept.getUpperDeptNo();
+            }
+        }
+        return appDeptList;
     }
 }
