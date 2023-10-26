@@ -4,7 +4,7 @@ SpringBoot ,JPA를 사용한 리팩토링 프로젝트
 WorkFlow(전자 결재) 시스템 개발
 
 ## 사용 기술
-- Back-end : Java, Spring Boot, JPA, Spring MVC,Gradle,Junit5, Spring Security, JWT, QueryDSL, JPQL
+- Back-end : Java, Spring Boot, JPA, Spring MVC,Gradle,Junit5, Spring Security, JWT, QueryDSL
 - DB : MySQL, Redis
 - Developer Tools : intelliJ / MySQL Workbench
 - AWS-EC2, Docker
