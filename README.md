@@ -32,9 +32,8 @@ hotfix : master 브랜치로 배포 후 수정 브랜치
 - **id참조**
     
     - 기준 외 객체들은 객체 간 연관 관계 없이 id 참조로 약한 결합<br>
-    ex) employee - dept : id를 이용해 접근(dept는 약한 결합도 탐색인 repository를 통한 탐색)
-    
-    →이를 통해 패키지간 의존도 사이클이 없어졌다
+    ex) employee - dept : id를 이용해 접근(dept는 약한 결합도 탐색인 repository를 통한 탐색)<br><br>
+    <img width="458" alt="image" src="https://github.com/CJIHEE/WF-refactoring/assets/110098108/9078d670-2f3b-407a-94c4-0346064a8608">
 
 ## 멀티 모듈 설계
 
