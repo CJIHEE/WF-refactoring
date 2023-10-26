@@ -40,15 +40,6 @@ public class DocumentService {
         Employee employee = employeeService.findEmployee(documentDto.getRequester());
         Document document = documentRepository.save(documentDto.toDocument(employee));
 
-        // 파일 업로드(foreach)
-//        attachmentDto.getMultipartFileList().forEach(
-//                multipartFile -> {
-//                    String storeFileName = fileManager.uploadFile(multipartFile);
-//                    Attachment attachment = new Attachment(document, storeFileName, multipartFile.getOriginalFilename(), multipartFile.getSize());
-//                    document.getAttachmentList().add(attachment);
-//                }
-//        );
-
         // 파일 업로드(StreamAPI)
         List<Attachment> attachments = attachmentDto.getMultipartFileList().stream().map(
                 multipartFile -> new Attachment(
@@ -63,11 +54,7 @@ public class DocumentService {
 
         //결제라인 조회
         List<DeptDto> approverList = deptService.createAppDeptList(employee.getDeptNo());
-
-//        nativeQuery 썼을 때
-//        List<Dept> approverList = deptNativeRepository.findApprovarList(deptRepository.findById(employee.getDeptNo())
-//                .orElseThrow(()-> new DeptNotFoundException("dept not found")).getDeptNo());
-
+        
         //결제담당 empNo 추출
         List<Long> leadEmpNoList = extractLeadEmpNo(approverList);
 
