@@ -6,7 +6,8 @@ WorkFlow(전자 결재) 시스템 개발
 ## 사용 기술
 - Back-end : Java, Spring Boot, JPA, Spring MVC,Gradle,Junit5, Spring Security, JWT, QueryDSL, JPQL
 - DB : MySQL, Redis
-- Developer Tools : intelliJ / MySQL Workbench 
+- Developer Tools : intelliJ / MySQL Workbench
+- AWS-EC2, Docker
 - PostMan , SourceTree, Swagger
 
 ## 브랜치 관리 :git-flow
