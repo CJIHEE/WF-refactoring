@@ -4,11 +4,14 @@ import com.workFlow.WFrefactoring.enums.EmpStatus;
 import com.workFlow.WFrefactoring.enums.Gender;
 import com.workFlow.WFrefactoring.enums.Position;
 import com.workFlow.WFrefactoring.model.Employee;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 
 
 @Getter
+@ApiModel(description = "employee Response")
 public class EmployeeResponse {
+
     private Integer deptNo;
     private Long empNo;
     private Position position;
@@ -37,7 +40,6 @@ public class EmployeeResponse {
         employeeVO.empStatus = employee.getEmpStatus();
         return employeeVO;
     }
-
 
 
 }

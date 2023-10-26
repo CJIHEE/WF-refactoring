@@ -13,10 +13,12 @@ import com.workFlow.WFrefactoring.security.domain.EmployeeDetails;
 import com.workFlow.WFrefactoring.vo.EmployeeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -45,13 +47,14 @@ public class EmployeeService {
         //DB에 저장(save),command로받은 데이터 entity에 데이터 주입(DTO->entity)
         Employee employee = employeeRepository.save(request.toEmployee(deptDto.getDeptNo(),passWord));
         //entity 값 VO에 주입
-        return EmployeeResponse .toVO(employee);
+        return EmployeeResponse.toVO(employee);
     }
 
     //전체 회원 조회
     @Transactional
     public List<EmployeeResponse> getAllEmployee(Long lastEmpNo, Integer pageSize) {
         if(pageSize == null) pageSize = 5;
+        if(lastEmpNo == null) lastEmpNo = 1L;
 
         List<Employee> empList = employeeRepository.findEmpAll(lastEmpNo, pageSize);
 
@@ -63,7 +66,7 @@ public class EmployeeService {
     //특정 사원 조회
     @Transactional
     public EmployeeResponse getEmployee(Long empNo) {
-        Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UserNotFoundException("user not found"));
+        Employee employee = findEmployee(empNo);
         return EmployeeResponse.toVO(employee);
     }
 
@@ -82,7 +85,24 @@ public class EmployeeService {
 
         employee.updateEmployee(employeeVO);
 
+
         return EmployeeResponse.toVO(employee);
 
     }
+
+    //사원 조회
+    @Transactional
+    public Employee findEmployee(Long empNo) {
+        Employee employee = employeeRepository.findById(empNo).orElseThrow(()->new UserNotFoundException("user not found"));
+        return employee;
+    }
+    @Transactional
+    public List<Employee> findEmployeeList(List<Long> leadEmpNoList){
+        List<Employee> leadEmployees = employeeRepository.findByEmpNoIn(leadEmpNoList);
+        return leadEmployees;
+    }
+
+
+
+
 }
