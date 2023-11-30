@@ -9,6 +9,6 @@ public class CheckAutenticationException extends ApiException{
 
     @Override
     public HttpStatus getStatus() {
-        return HttpStatus.UNAUTHORIZED;
+        return HttpStatus.BAD_REQUEST;
     }
 }
