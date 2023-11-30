@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeDetailsService implements UserDetailsService {
 
     private final EmployeeRepository employeeRepository;
+    private int count = 1;
     @Override
     public UserDetails loadUserByUsername(String mail){
         Employee employee = employeeRepository.findBymail(mail);
