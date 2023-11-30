@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-@Profile("local")
+@Profile("dev")
 public class ApiExceptionAdvice {
 
     @ExceptionHandler(ApiException.class)
